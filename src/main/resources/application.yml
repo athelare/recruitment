@@ -1,0 +1,22 @@
+server.port: 8080
+spring:
+  jpa:
+    open-in-view: true
+    database: mysql
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate.ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/campus_recruitment?characterEncoding=UTF-8&serverTimezone=CTT
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet.multipart:
+    max-file-size: 5MB
+    max-request-size: 5MB
+  thymeleaf.cache: false
+
+
+
+
+
