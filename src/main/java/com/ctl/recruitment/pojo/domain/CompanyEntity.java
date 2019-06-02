@@ -1,6 +1,7 @@
 package com.ctl.recruitment.pojo.domain;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +17,7 @@ public class CompanyEntity {
     private String logo;
     private Integer size;
     private String city;
+    private Date startDate;
 
     @Id
     @Column(name = "company_id", nullable = false, length = 30)
@@ -136,5 +138,15 @@ public class CompanyEntity {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Basic
+    @Column(name = "start_date", nullable = true)
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 }

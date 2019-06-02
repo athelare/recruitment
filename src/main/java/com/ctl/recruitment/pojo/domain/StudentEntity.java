@@ -1,12 +1,16 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "student", schema = "campus_recruitment")
 public class StudentEntity {
+    private String username;
     private String studentId;
     private String password;
     private String email;
@@ -16,9 +20,16 @@ public class StudentEntity {
     private String wechatAccount;
     private String portrait;
     private Timestamp regTime;
+    private Byte sex;
+    private String universityProvince;
+    private String universityName;
+    private String enroolYear;
+    private String realName;
+    private String identityNum;
+    private String phone;
 
-    @Id
-    @Column(name = "student_id", nullable = false, length = 20)
+    @Basic
+    @Column(name = "student_id", nullable = true, length = 20)
     public String getStudentId() {
         return studentId;
     }
@@ -126,5 +137,85 @@ public class StudentEntity {
     @Override
     public int hashCode() {
         return Objects.hash(studentId, password, email, schoolName, major, qqAccount, wechatAccount, portrait, regTime);
+    }
+
+    @Id
+    @Column(name = "username", nullable = false, length = 20)
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Basic
+    @Column(name = "sex", nullable = true)
+    public Byte getSex() {
+        return sex;
+    }
+
+    public void setSex(Byte sex) {
+        this.sex = sex;
+    }
+
+    @Basic
+    @Column(name = "university_province", nullable = true, length = 20)
+    public String getUniversityProvince() {
+        return universityProvince;
+    }
+
+    public void setUniversityProvince(String universityProvince) {
+        this.universityProvince = universityProvince;
+    }
+
+    @Basic
+    @Column(name = "university_name", nullable = true, length = 40)
+    public String getUniversityName() {
+        return universityName;
+    }
+
+    public void setUniversityName(String universityName) {
+        this.universityName = universityName;
+    }
+
+    @Basic
+    @Column(name = "enrool_year", nullable = true, length = 10)
+    public String getEnroolYear() {
+        return enroolYear;
+    }
+
+    public void setEnroolYear(String enroolYear) {
+        this.enroolYear = enroolYear;
+    }
+
+    @Basic
+    @Column(name = "real_name", nullable = true, length = 20)
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    @Basic
+    @Column(name = "identity_num", nullable = true, length = 20)
+    public String getIdentityNum() {
+        return identityNum;
+    }
+
+    public void setIdentityNum(String identityNum) {
+        this.identityNum = identityNum;
+    }
+
+    @Basic
+    @Column(name = "phone", nullable = true, length = 20)
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

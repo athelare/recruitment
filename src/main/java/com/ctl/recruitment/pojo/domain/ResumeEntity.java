@@ -1,20 +1,26 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "resume", schema = "campus_recruitment")
 public class ResumeEntity {
+
     enum Type{ONLINE,FILE}
-    private int resumeId;
+    private Integer resumeId;
     private Type resumeType;
     private String resumeAddress;
     private String introduce;
-    private StudentEntity studentByStudentId;
+    private String studentUsername;
     private String portraitAddress;
     private String name;
+    private Integer sex;
+    private String city;
     private String phone;
     private String email;
     private String university;
@@ -39,11 +45,11 @@ public class ResumeEntity {
 
     @Id
     @Column(name = "resume_id", nullable = false)
-    public int getResumeId() {
+    public Integer getResumeId() {
         return resumeId;
     }
 
-    public void setResumeId(int resumeId) {
+    public void setResumeId(Integer resumeId) {
         this.resumeId = resumeId;
     }
 
@@ -94,14 +100,14 @@ public class ResumeEntity {
         return Objects.hash(resumeId, resumeType, resumeAddress, introduce);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "student_id", nullable = false)
-    public StudentEntity getStudentByStudentId() {
-        return studentByStudentId;
+    @Basic
+    @Column(name = "student_username" ,nullable = false)
+    public String getStudentUsername() {
+        return studentUsername;
     }
 
-    public void setStudentByStudentId(StudentEntity studentByStudentId) {
-        this.studentByStudentId = studentByStudentId;
+    public void setStudentUsername(String studentId) {
+        this.studentUsername = studentId;
     }
 
     @Basic
@@ -213,6 +219,27 @@ public class ResumeEntity {
     public void setGpaRank(Integer gpaRank) {
         this.gpaRank = gpaRank;
     }
+
+    @Basic
+    @Column(name = "sex")
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    @Basic
+    @Column(name = "city")
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
 
     @Basic
     @Column(name = "major_course", nullable = true, length = 255)

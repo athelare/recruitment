@@ -10,6 +10,7 @@ public class CareerTalkEntity {
     private int careerTalkId;
     private String place;
     private Timestamp heldTime;
+    private CompanyEntity company;
 
     @Id
     @Column(name = "career_talk_id", nullable = false)
@@ -54,5 +55,15 @@ public class CareerTalkEntity {
     @Override
     public int hashCode() {
         return Objects.hash(careerTalkId, place, heldTime);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "company_id",referencedColumnName = "company_id", nullable = false)
+    public CompanyEntity getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyEntity companyId) {
+        this.company = companyId;
     }
 }

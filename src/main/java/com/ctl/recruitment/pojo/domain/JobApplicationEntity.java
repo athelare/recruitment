@@ -11,7 +11,7 @@ public class JobApplicationEntity {
     }
     private int applicationId;
     private JobStatus status;
-    private StudentEntity studentByStudentId;
+    private StudentEntity studentByUsername;
     private JobEntity jobByJobId;
     private ResumeEntity resumeByResumeId;
 
@@ -51,13 +51,13 @@ public class JobApplicationEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "student_id", nullable = false)
-    public StudentEntity getStudentByStudentId() {
-        return studentByStudentId;
+    @JoinColumn(name = "student_username", referencedColumnName = "username", nullable = false)
+    public StudentEntity getStudentByUsername() {
+        return studentByUsername;
     }
 
-    public void setStudentByStudentId(StudentEntity studentByStudentId) {
-        this.studentByStudentId = studentByStudentId;
+    public void setStudentByUsername(StudentEntity studentByStudentId) {
+        this.studentByUsername = studentByStudentId;
     }
 
     @ManyToOne

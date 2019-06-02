@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public interface StudentDao extends JpaRepository<StudentEntity,Long> {
-
+    StudentEntity findByUsername(String username);
+    StudentEntity findByStudentId(String studentId);
 }

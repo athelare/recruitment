@@ -3,6 +3,10 @@
 
     <persistence-unit name="persistenceUnit">
         <class>com.ctl.recruitment.pojo.domain.ResumeEntity</class>
+        <class>com.ctl.recruitment.pojo.domain.StudentEntity</class>
+        <class>com.ctl.recruitment.pojo.domain.CompanyEntity</class>
+        <class>com.ctl.recruitment.pojo.domain.FollowEntity</class>
+        <class>com.ctl.recruitment.pojo.domain.CareerTalkEntity</class>
         <properties>
             <property name="hibernate.connection.url"
                       value="jdbc:mysql://localhost:3306/campus_recruitment?characterEncoding=UTF-8&amp;serverTimezone=CTT"/>

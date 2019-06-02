@@ -1,17 +1,24 @@
 package com.ctl.recruitment.controller;
 
+import com.ctl.recruitment.pojo.domain.ResumeEntity;
+import com.ctl.recruitment.pojo.domain.StudentEntity;
 import com.ctl.recruitment.pojo.result.data.CompanyInfo;
 import com.ctl.recruitment.pojo.result.data.JobApplicationInfo;
 import com.ctl.recruitment.pojo.result.data.JobInfo;
 import com.ctl.recruitment.pojo.result.ResultType;
+import com.ctl.recruitment.pojo.result.data.StudentInfo;
 import com.ctl.recruitment.service.CompanyService;
 import com.ctl.recruitment.service.JobService;
+import com.ctl.recruitment.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -20,28 +27,77 @@ public class StudentController {
 
     private final JobService jobService;
     private final CompanyService companyService;
+    private final StudentService studentService;
 
-    public StudentController(JobService jobService, CompanyService companyService) {
+    public StudentController(JobService jobService, CompanyService companyService, StudentService studentService) {
         this.jobService = jobService;
         this.companyService = companyService;
+        this.studentService = studentService;
     }
 
 
     @RequestMapping("/register")
     public ResultType StudentRegister(
+            HttpServletRequest request,
             @RequestParam String username,
             @RequestParam String password
             ){
-        return ResultType.Success();
+        try {
+            StudentEntity student = new StudentEntity();
+            student.setUsername(username);
+            student.setPassword(password);
+            studentService.StudentRegister(username,password);
+            request.getSession().setAttribute("loginUser",studentService.StudentRegister(username,password));
+            return ResultType.Success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("注册失败！可能的原因：用户名已经存在");
+        }
+
     }
 
-    @RequestMapping("/studentValidate")
-    public ResultType StudentValidate(){
-        return null;
+    @RequestMapping("/send-student-info")
+    public ResultType StudentValidate(
+            HttpServletRequest request,
+            @RequestParam String realName,
+            @RequestParam String studentId,
+            @RequestParam String identityNum,
+            @RequestParam String universityProvince,
+            @RequestParam String universityName,
+            @RequestParam String enrollYear,
+            @RequestParam String schoolName,
+            @RequestParam String phone,
+            @RequestParam String email
+    ){
+        try {
+            StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            student.setStudentId(studentId);
+            student.setRealName(realName);
+            student.setUniversityProvince(universityProvince);
+            student.setUniversityName(universityName);
+            student.setEnroolYear(enrollYear);
+            student.setSchoolName(schoolName);
+            student.setIdentityNum(identityNum);
+            student.setPhone(phone);
+            student.setEmail(email);
+            studentService.saveStudentInfo(student);
+            return ResultType.Success();
+        }catch (NullPointerException e){
+            return ResultType.Error("Server: 更新信息失败,您还未登录！");
+        }catch (Exception e){
+            return ResultType.Error("Server: 未知错误，更新信息失败！");
+        }
     }
 
     @RequestMapping("/login")
     public ResultType StudentLogin(HttpServletRequest request, String username, String password){
+        HttpSession session = request.getSession();
+        StudentEntity student = studentService.findByStudentUsername(username);
+        if(student == null)
+            return ResultType.Error("用户不存在！");
+        if(!student.getPassword().equals(password))
+            return ResultType.Error("密码错误！");
+        session.setAttribute("loginUser",student);
         return ResultType.Success();
     }
 
@@ -93,5 +149,180 @@ public class StudentController {
         }
     }
 
+    @RequestMapping("/resume/step1")
+    public ResultType CreateResumeStep1(
+            HttpServletRequest request,
+            @RequestParam String name,
+            @RequestParam Integer sex,
+            @RequestParam(defaultValue = "default.png") String portraitAddress,
+            @RequestParam String city,
+            @RequestParam String phone,
+            @RequestParam String email
+    ){
+        try{
+            HttpSession session = request.getSession();
+            //TODO delete following statement
+            session.setAttribute("loginUser",studentService.findByStudentId("lijiyu"));
+            ResumeEntity resume = new ResumeEntity();
+            String username = ((StudentEntity) session.getAttribute("loginUser")).getUsername();
+            resume.setStudentUsername(username);
+            resume.setName(name);
+            resume.setSex(sex);
+            resume.setPortraitAddress(portraitAddress);
+            resume.setCity(city);
+            resume.setPhone(phone);
+            resume.setEmail(email);
+            session.setAttribute("newResume",resume);
+            return ResultType.Success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("Server: 保存失败");
+        }
+    }
 
+    @RequestMapping("/resume/step2")
+    public ResultType CreateResumeStep2(
+            HttpServletRequest request,
+            @RequestParam String university,
+            @RequestParam Date eduBegin,
+            @RequestParam Date eduEnd,
+            @RequestParam String degree,
+            @RequestParam String majorName,
+            @RequestParam Double gpa,
+            @RequestParam Integer gpaRank,
+            @RequestParam String majorCourse,
+            @RequestParam String awards
+    ){
+        try{
+            ResumeEntity resume = (ResumeEntity) request.getSession().getAttribute("newResume");
+            resume.setUniversity(university);
+            resume.setEduBeginTime(eduBegin);
+            resume.setEduEndTime(eduEnd);
+            resume.setEduDegree(degree);
+            resume.setMajorName(majorName);
+            resume.setGpa(gpa);
+            resume.setGpaRank(gpaRank);
+            resume.setMajorCourse(majorCourse);
+            resume.setAwards(awards);
+            return ResultType.Success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("Server");
+        }
+
+    }
+
+    @RequestMapping("/resume/step3")
+    public ResultType CreateResumeStep3(
+            HttpServletRequest request,
+            @RequestParam String internCompany,
+            @RequestParam String internPosition,
+            @RequestParam Date internBegin,
+            @RequestParam Date internEnd,
+            @RequestParam String internDetail,
+            @RequestParam String projectName,
+            @RequestParam String projectRole,
+            @RequestParam String projectDetail,
+            @RequestParam Date projectBegin,
+            @RequestParam Date projectEnd
+    ){
+        try{
+            ResumeEntity resume = (ResumeEntity) request.getSession().getAttribute("newResume");
+            resume.setInternCompany(internCompany);
+            resume.setInternPosition(internPosition);
+            resume.setInternStart(internBegin);
+            resume.setInternEnd(internEnd);
+            resume.setInternDetail(internDetail);
+            resume.setProjectName(projectName);
+            resume.setProjectRole(projectRole);
+            resume.setProjectDetail(projectDetail);
+            resume.setProjectStart(projectBegin);
+            resume.setProjectEnd(projectEnd);
+            return ResultType.Success(studentService.saveResume(resume));
+        }catch (Exception e){
+            return ResultType.Error("保存数据库过程中出现错误！");
+        }
+
+
+
+    }
+
+    //TODO DELETE
+    @RequestMapping("/resume/show-new-resume")
+    public ResultType showNewResume(HttpServletRequest request){
+        return ResultType.Success(request.getSession().getAttribute("newResume"));
+    }
+
+    @RequestMapping("/resume/my-resume")
+    public ResultType showMyResumes(HttpServletRequest request){
+        StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+        try {
+            return ResultType.Success(studentService.findResumesByUsername(student.getUsername()));
+        }catch (Exception e){
+            return ResultType.Error("简历查找失败！");
+        }
+    }
+
+    @RequestMapping("/personal-info")
+    public ResultType showPersonalInfo(HttpServletRequest request) {
+        try {
+            StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            return ResultType.Success(
+                    new StudentInfo(
+                            student.getUsername(),
+                            student.getRealName(),
+                            student.getUniversityName(),
+                            student.getMajor(),
+                            student.getEmail()
+                    )
+            );
+        }catch (Exception e){
+            return ResultType.Error("个人信息查找失败！");
+        }
+    }
+
+    @RequestMapping("/follow/add")
+    public ResultType addFollow(HttpServletRequest request,String companyId) {
+        try {
+            StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            studentService.addFollow(student.getUsername(),companyId);
+            return ResultType.Success();
+        }catch (Exception e){
+            return ResultType.Error("关注失败！");
+        }
+    }
+
+    @RequestMapping("/follow/delete")
+    public ResultType deleteFollow(HttpServletRequest request,String companyId) {
+        try {
+            StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            studentService.deleteFollow(student.getUsername(),companyId);
+            return ResultType.Success();
+        }catch (Exception e){
+            return ResultType.Error("关注失败！");
+        }
+    }
+
+    @RequestMapping("/follow/show")
+    public ResultType showMyFollow(HttpServletRequest request){
+        try {
+            StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            return ResultType.Success(
+                    studentService.showFollow(student.getUsername())
+            );
+        }catch (Exception e){
+            return ResultType.Error("收藏信息查找失败！");
+        }
+    }
+
+    @RequestMapping("/follow/career-talks")
+    public ResultType showCareerTalks(HttpServletRequest request){
+        try{
+            StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            return ResultType.Success(studentService.findCareerTalks(student.getUsername()));
+        }catch (Exception e){
+            return ResultType.Error("未能查找宣讲会");
+        }
+
+    }
 }

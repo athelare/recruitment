@@ -1,15 +1,18 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "follow", schema = "campus_recruitment")
 public class FollowEntity {
-    static enum FollowStatus{FOLLOW,CANCELED}
     private int followId;
-    private FollowStatus status;
     private CompanyEntity companyByCompanyId;
+    private Timestamp followDate;
 
     @Id
     @Column(name = "follow_id", nullable = false)
@@ -21,29 +24,18 @@ public class FollowEntity {
         this.followId = followId;
     }
 
-    @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    public FollowStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(FollowStatus status) {
-        this.status = status;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FollowEntity that = (FollowEntity) o;
         return followId == that.followId &&
-                Objects.equals(status, that.status);
+                Objects.equals(companyByCompanyId, that.companyByCompanyId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(followId, status);
+        return Objects.hash(followId, companyByCompanyId);
     }
 
     @ManyToOne
@@ -54,5 +46,15 @@ public class FollowEntity {
 
     public void setCompanyByCompanyId(CompanyEntity companyByCompanyId) {
         this.companyByCompanyId = companyByCompanyId;
+    }
+
+    @Basic
+    @Column(name = "follow_date", nullable = true)
+    public Timestamp getFollowDate() {
+        return followDate;
+    }
+
+    public void setFollowDate(Timestamp followDate) {
+        this.followDate = followDate;
     }
 }
