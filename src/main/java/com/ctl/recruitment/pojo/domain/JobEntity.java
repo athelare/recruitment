@@ -1,9 +1,13 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "job", schema = "campus_recruitment")
 public class JobEntity {
     private int jobId;
@@ -13,6 +17,8 @@ public class JobEntity {
     private String detail;
     private CompanyEntity companyByCompanyId;
     private Integer workType;
+    private String workHour;
+    private Date appDeadline;
 
     @Id
     @Column(name = "job_id", nullable = false)
@@ -25,7 +31,7 @@ public class JobEntity {
     }
 
     @Basic
-    @Column(name = "job_name", nullable = true, length = 30)
+    @Column(name = "job_name", length = 30)
     public String getJobName() {
         return jobName;
     }
@@ -35,7 +41,7 @@ public class JobEntity {
     }
 
     @Basic
-    @Column(name = "type", nullable = true, length = 30)
+    @Column(name = "type", length = 30)
     public String getType() {
         return type;
     }
@@ -45,7 +51,7 @@ public class JobEntity {
     }
 
     @Basic
-    @Column(name = "require_num", nullable = true)
+    @Column(name = "require_num")
     public Integer getRequireNum() {
         return requireNum;
     }
@@ -55,7 +61,7 @@ public class JobEntity {
     }
 
     @Basic
-    @Column(name = "detail", nullable = true, length = 255)
+    @Column(name = "detail")
     public String getDetail() {
         return detail;
     }
@@ -99,5 +105,25 @@ public class JobEntity {
 
     public void setWorkType(Integer workType) {
         this.workType = workType;
+    }
+
+    @Basic
+    @Column(name = "work_hour", length = 40)
+    public String getWorkHour() {
+        return workHour;
+    }
+
+    public void setWorkHour(String workHour) {
+        this.workHour = workHour;
+    }
+
+    @Basic
+    @Column(name = "app_deadline", nullable = true)
+    public Date getAppDeadline() {
+        return appDeadline;
+    }
+
+    public void setAppDeadline(Date appDeadline) {
+        this.appDeadline = appDeadline;
     }
 }

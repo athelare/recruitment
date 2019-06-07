@@ -1,12 +1,15 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "job_application", schema = "campus_recruitment")
 public class JobApplicationEntity {
-    static enum JobStatus{
+    enum JobStatus{
         SUBMITTED,IGNORE,PROCESSING,FINISHED
     }
     private int applicationId;
@@ -27,7 +30,7 @@ public class JobApplicationEntity {
 
     @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = true)
+    @Column(name = "status")
     public JobStatus getStatus() {
         return status;
     }

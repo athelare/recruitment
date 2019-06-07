@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 @DynamicInsert
 @Table(name = "student", schema = "campus_recruitment")
-public class StudentEntity {
+public class StudentEntity{
     private String username;
     private String studentId;
     private String password;
@@ -23,13 +23,13 @@ public class StudentEntity {
     private Byte sex;
     private String universityProvince;
     private String universityName;
-    private String enroolYear;
+    private String enrollYear;
     private String realName;
     private String identityNum;
     private String phone;
 
     @Basic
-    @Column(name = "student_id", nullable = true, length = 20)
+    @Column(name = "student_id", length = 20)
     public String getStudentId() {
         return studentId;
     }
@@ -49,7 +49,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "email", nullable = true, length = 40)
+    @Column(name = "email", length = 40)
     public String getEmail() {
         return email;
     }
@@ -59,7 +59,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "school_name", nullable = true, length = 40)
+    @Column(name = "school_name", length = 40)
     public String getSchoolName() {
         return schoolName;
     }
@@ -69,7 +69,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "major", nullable = true, length = 20)
+    @Column(name = "major", length = 20)
     public String getMajor() {
         return major;
     }
@@ -79,7 +79,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "qq_account", nullable = true, length = 20)
+    @Column(name = "qq_account", length = 20)
     public String getQqAccount() {
         return qqAccount;
     }
@@ -89,7 +89,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "wechat_account", nullable = true, length = 20)
+    @Column(name = "wechat_account", length = 20)
     public String getWechatAccount() {
         return wechatAccount;
     }
@@ -99,7 +99,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "portrait", nullable = true, length = 20)
+    @Column(name = "portrait", length = 20)
     public String getPortrait() {
         return portrait;
     }
@@ -109,7 +109,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "reg_time", nullable = true)
+    @Column(name = "reg_time")
     public Timestamp getRegTime() {
         return regTime;
     }
@@ -150,7 +150,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "sex", nullable = true)
+    @Column(name = "sex")
     public Byte getSex() {
         return sex;
     }
@@ -160,7 +160,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "university_province", nullable = true, length = 20)
+    @Column(name = "university_province", length = 20)
     public String getUniversityProvince() {
         return universityProvince;
     }
@@ -170,7 +170,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "university_name", nullable = true, length = 40)
+    @Column(name = "university_name", length = 40)
     public String getUniversityName() {
         return universityName;
     }
@@ -180,17 +180,17 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "enrool_year", nullable = true, length = 10)
-    public String getEnroolYear() {
-        return enroolYear;
+    @Column(name = "enroll_year", length = 10)
+    public String getEnrollYear() {
+        return enrollYear;
     }
 
-    public void setEnroolYear(String enroolYear) {
-        this.enroolYear = enroolYear;
+    public void setEnrollYear(String enroolYear) {
+        this.enrollYear = enroolYear;
     }
 
     @Basic
-    @Column(name = "real_name", nullable = true, length = 20)
+    @Column(name = "real_name", length = 20)
     public String getRealName() {
         return realName;
     }
@@ -200,7 +200,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "identity_num", nullable = true, length = 20)
+    @Column(name = "identity_num", length = 20)
     public String getIdentityNum() {
         return identityNum;
     }
@@ -210,7 +210,7 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "phone", nullable = true, length = 20)
+    @Column(name = "phone", length = 20)
     public String getPhone() {
         return phone;
     }

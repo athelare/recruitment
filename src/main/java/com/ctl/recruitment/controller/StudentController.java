@@ -10,14 +10,13 @@ import com.ctl.recruitment.pojo.result.data.StudentInfo;
 import com.ctl.recruitment.service.CompanyService;
 import com.ctl.recruitment.service.JobService;
 import com.ctl.recruitment.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ctl.recruitment.util.ExceptionUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.Result;
 import java.sql.Date;
 import java.util.List;
 
@@ -46,7 +45,6 @@ public class StudentController {
             StudentEntity student = new StudentEntity();
             student.setUsername(username);
             student.setPassword(password);
-            studentService.StudentRegister(username,password);
             request.getSession().setAttribute("loginUser",studentService.StudentRegister(username,password));
             return ResultType.Success();
         }catch (Exception e){
@@ -71,11 +69,13 @@ public class StudentController {
     ){
         try {
             StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+            if(student == null)
+                return ResultType.Error("Server: 更新信息失败，您还未登录");
             student.setStudentId(studentId);
             student.setRealName(realName);
             student.setUniversityProvince(universityProvince);
             student.setUniversityName(universityName);
-            student.setEnroolYear(enrollYear);
+            student.setEnrollYear(enrollYear);
             student.setSchoolName(schoolName);
             student.setIdentityNum(identityNum);
             student.setPhone(phone);
@@ -83,8 +83,10 @@ public class StudentController {
             studentService.saveStudentInfo(student);
             return ResultType.Success();
         }catch (NullPointerException e){
-            return ResultType.Error("Server: 更新信息失败,您还未登录！");
+            e.printStackTrace();
+            return ResultType.Error("Server: 更新信息失败，出现空指针");
         }catch (Exception e){
+            e.printStackTrace();
             return ResultType.Error("Server: 未知错误，更新信息失败！");
         }
     }
@@ -106,15 +108,6 @@ public class StudentController {
             HttpServletRequest request,
             String jobType,
             String place
-    ){
-        return null;
-    }
-
-    @RequestMapping("/sendResume")
-    public ResultType sendResume(
-            HttpServletRequest request,
-            Integer resumeId,
-            Integer targetJobId
     ){
         return null;
     }
@@ -149,6 +142,26 @@ public class StudentController {
         }
     }
 
+    @RequestMapping("/resume/init")
+    public ResultType initResume(
+            HttpServletRequest request,
+            @RequestParam Integer jobId
+    ){
+        try {
+            HttpSession session = request.getSession();
+            ResumeEntity resume = new ResumeEntity();
+            StudentEntity student = (StudentEntity) session.getAttribute("loginUser");
+            if(student == null)
+                return ResultType.Error("Server: 更新信息失败，您还未登录");
+            resume.setStudentUsername(student.getUsername());
+            resume.setJobId(jobId);
+            session.setAttribute("newResume",resume);
+            return ResultType.Success();
+        }catch (Exception e){
+            return ResultType.Error("简历创建失败！");
+        }
+    }
+
     @RequestMapping("/resume/step1")
     public ResultType CreateResumeStep1(
             HttpServletRequest request,
@@ -160,23 +173,21 @@ public class StudentController {
             @RequestParam String email
     ){
         try{
-            HttpSession session = request.getSession();
-            //TODO delete following statement
-            session.setAttribute("loginUser",studentService.findByStudentId("lijiyu"));
-            ResumeEntity resume = new ResumeEntity();
-            String username = ((StudentEntity) session.getAttribute("loginUser")).getUsername();
-            resume.setStudentUsername(username);
+            ResumeEntity resume = (ResumeEntity) request.getSession().getAttribute("newResume");
+            if(resume == null)
+                return ResultType.Error("Server: Session中不存在resume，请按顺序进行操作！");
+
             resume.setName(name);
             resume.setSex(sex);
             resume.setPortraitAddress(portraitAddress);
             resume.setCity(city);
             resume.setPhone(phone);
             resume.setEmail(email);
-            session.setAttribute("newResume",resume);
+
             return ResultType.Success();
         }catch (Exception e){
             e.printStackTrace();
-            return ResultType.Error("Server: 保存失败");
+            return ResultType.Error("Server: 保存失败，可能的原因：未登录");
         }
     }
 
@@ -184,30 +195,32 @@ public class StudentController {
     public ResultType CreateResumeStep2(
             HttpServletRequest request,
             @RequestParam String university,
-            @RequestParam Date eduBegin,
-            @RequestParam Date eduEnd,
+            @RequestParam String eduBegin,
+            @RequestParam String eduEnd,
             @RequestParam String degree,
             @RequestParam String majorName,
-            @RequestParam Double gpa,
-            @RequestParam Integer gpaRank,
+            @RequestParam Double GPA,
+            @RequestParam Integer GPARank,
             @RequestParam String majorCourse,
             @RequestParam String awards
     ){
         try{
             ResumeEntity resume = (ResumeEntity) request.getSession().getAttribute("newResume");
+            if(resume == null)
+                return ResultType.Error("Server: Session中不存在resume，请按顺序进行操作！");
             resume.setUniversity(university);
             resume.setEduBeginTime(eduBegin);
             resume.setEduEndTime(eduEnd);
             resume.setEduDegree(degree);
             resume.setMajorName(majorName);
-            resume.setGpa(gpa);
-            resume.setGpaRank(gpaRank);
+            resume.setGpa(GPA);
+            resume.setGpaRank(GPARank);
             resume.setMajorCourse(majorCourse);
             resume.setAwards(awards);
             return ResultType.Success();
         }catch (Exception e){
             e.printStackTrace();
-            return ResultType.Error("Server");
+            return ResultType.Error("Server"+ ExceptionUtil.getExceptionInformation(e));
         }
 
     }
@@ -228,6 +241,8 @@ public class StudentController {
     ){
         try{
             ResumeEntity resume = (ResumeEntity) request.getSession().getAttribute("newResume");
+            if(resume == null)
+                return ResultType.Error("Server: Session中不存在resume，请按顺序进行操作！");
             resume.setInternCompany(internCompany);
             resume.setInternPosition(internPosition);
             resume.setInternStart(internBegin);
@@ -240,7 +255,8 @@ public class StudentController {
             resume.setProjectEnd(projectEnd);
             return ResultType.Success(studentService.saveResume(resume));
         }catch (Exception e){
-            return ResultType.Error("保存数据库过程中出现错误！");
+            e.printStackTrace();
+            return ResultType.Error("保存数据库过程中出现错误！\n"+ ExceptionUtil.getExceptionInformation(e));
         }
 
 
@@ -259,6 +275,7 @@ public class StudentController {
         try {
             return ResultType.Success(studentService.findResumesByUsername(student.getUsername()));
         }catch (Exception e){
+            e.printStackTrace();
             return ResultType.Error("简历查找失败！");
         }
     }
@@ -272,11 +289,12 @@ public class StudentController {
                             student.getUsername(),
                             student.getRealName(),
                             student.getUniversityName(),
-                            student.getMajor(),
+                            student.getPhone(),
                             student.getEmail()
                     )
             );
         }catch (Exception e){
+            e.printStackTrace();
             return ResultType.Error("个人信息查找失败！");
         }
     }
@@ -288,6 +306,7 @@ public class StudentController {
             studentService.addFollow(student.getUsername(),companyId);
             return ResultType.Success();
         }catch (Exception e){
+            e.printStackTrace();
             return ResultType.Error("关注失败！");
         }
     }
@@ -299,7 +318,8 @@ public class StudentController {
             studentService.deleteFollow(student.getUsername(),companyId);
             return ResultType.Success();
         }catch (Exception e){
-            return ResultType.Error("关注失败！");
+            e.printStackTrace();
+            return ResultType.Error("删除失败！");
         }
     }
 
@@ -311,6 +331,7 @@ public class StudentController {
                     studentService.showFollow(student.getUsername())
             );
         }catch (Exception e){
+            e.printStackTrace();
             return ResultType.Error("收藏信息查找失败！");
         }
     }
@@ -321,6 +342,7 @@ public class StudentController {
             StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
             return ResultType.Success(studentService.findCareerTalks(student.getUsername()));
         }catch (Exception e){
+            e.printStackTrace();
             return ResultType.Error("未能查找宣讲会");
         }
 

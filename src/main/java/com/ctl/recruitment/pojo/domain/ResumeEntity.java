@@ -10,8 +10,8 @@ import java.util.Objects;
 @DynamicInsert
 @Table(name = "resume", schema = "campus_recruitment")
 public class ResumeEntity {
+    public enum Status{PENDING,PROCESSING,FINISHED}
 
-    enum Type{ONLINE,FILE}
     private Integer resumeId;
     private Type resumeType;
     private String resumeAddress;
@@ -24,8 +24,8 @@ public class ResumeEntity {
     private String phone;
     private String email;
     private String university;
-    private Date eduBeginTime;
-    private Date eduEndTime;
+    private String eduBeginTime;
+    private String eduEndTime;
     private String eduDegree;
     private String majorName;
     private Double gpa;
@@ -42,8 +42,11 @@ public class ResumeEntity {
     private Date projectStart;
     private Date projectEnd;
     private String projectDetail;
+    private Integer jobId;
+    private Status status;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resume_id", nullable = false)
     public Integer getResumeId() {
         return resumeId;
@@ -55,7 +58,7 @@ public class ResumeEntity {
 
     @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "resume_type", nullable = true)
+    @Column(name = "resume_type")
     public Type getResumeType() {
         return resumeType;
     }
@@ -65,7 +68,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "resume_address", nullable = true, length = 50)
+    @Column(name = "resume_address", length = 50)
     public String getResumeAddress() {
         return resumeAddress;
     }
@@ -75,7 +78,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "introduce", nullable = true, length = 255)
+    @Column(name = "introduce")
     public String getIntroduce() {
         return introduce;
     }
@@ -111,7 +114,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "portrait_address", nullable = true, length = 30)
+    @Column(name = "portrait_address", length = 30)
     public String getPortraitAddress() {
         return portraitAddress;
     }
@@ -121,7 +124,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "name", nullable = true, length = 30)
+    @Column(name = "name", length = 30)
     public String getName() {
         return name;
     }
@@ -131,7 +134,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "phone", nullable = true, length = 30)
+    @Column(name = "phone", length = 30)
     public String getPhone() {
         return phone;
     }
@@ -141,7 +144,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "email", nullable = true, length = 30)
+    @Column(name = "email", length = 30)
     public String getEmail() {
         return email;
     }
@@ -151,7 +154,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "university", nullable = true, length = 30)
+    @Column(name = "university", length = 30)
     public String getUniversity() {
         return university;
     }
@@ -161,27 +164,27 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "edu_begin_time", nullable = true)
-    public Date getEduBeginTime() {
+    @Column(name = "edu_begin_time")
+    public String getEduBeginTime() {
         return eduBeginTime;
     }
 
-    public void setEduBeginTime(Date eduBeginTime) {
+    public void setEduBeginTime(String eduBeginTime) {
         this.eduBeginTime = eduBeginTime;
     }
 
     @Basic
-    @Column(name = "edu_end_time", nullable = true)
-    public Date getEduEndTime() {
+    @Column(name = "edu_end_time")
+    public String getEduEndTime() {
         return eduEndTime;
     }
 
-    public void setEduEndTime(Date eduEndTime) {
+    public void setEduEndTime(String eduEndTime) {
         this.eduEndTime = eduEndTime;
     }
 
     @Basic
-    @Column(name = "edu_degree", nullable = true, length = 30)
+    @Column(name = "edu_degree", length = 30)
     public String getEduDegree() {
         return eduDegree;
     }
@@ -191,7 +194,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "major_name", nullable = true, length = 30)
+    @Column(name = "major_name", length = 30)
     public String getMajorName() {
         return majorName;
     }
@@ -201,7 +204,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "GPA", nullable = true, precision = 0)
+    @Column(name = "GPA")
     public Double getGpa() {
         return gpa;
     }
@@ -211,7 +214,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "GPA_rank", nullable = true)
+    @Column(name = "GPA_rank")
     public Integer getGpaRank() {
         return gpaRank;
     }
@@ -240,9 +243,8 @@ public class ResumeEntity {
         this.city = city;
     }
 
-
     @Basic
-    @Column(name = "major_course", nullable = true, length = 255)
+    @Column(name = "major_course")
     public String getMajorCourse() {
         return majorCourse;
     }
@@ -252,7 +254,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "awards", nullable = true, length = 255)
+    @Column(name = "awards")
     public String getAwards() {
         return awards;
     }
@@ -262,7 +264,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "intern_company", nullable = true, length = 30)
+    @Column(name = "intern_company", length = 30)
     public String getInternCompany() {
         return internCompany;
     }
@@ -272,7 +274,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "intern_position", nullable = true, length = 30)
+    @Column(name = "intern_position", length = 30)
     public String getInternPosition() {
         return internPosition;
     }
@@ -282,7 +284,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "intern_start", nullable = true)
+    @Column(name = "intern_start")
     public Date getInternStart() {
         return internStart;
     }
@@ -292,7 +294,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "intern_end", nullable = true)
+    @Column(name = "intern_end")
     public Date getInternEnd() {
         return internEnd;
     }
@@ -302,7 +304,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "intern_detail", nullable = true, length = 255)
+    @Column(name = "intern_detail")
     public String getInternDetail() {
         return internDetail;
     }
@@ -312,7 +314,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "project_name", nullable = true, length = 30)
+    @Column(name = "project_name",  length = 30)
     public String getProjectName() {
         return projectName;
     }
@@ -322,7 +324,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "project_role", nullable = true, length = 30)
+    @Column(name = "project_role", length = 30)
     public String getProjectRole() {
         return projectRole;
     }
@@ -332,7 +334,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "project_start", nullable = true)
+    @Column(name = "project_start")
     public Date getProjectStart() {
         return projectStart;
     }
@@ -342,7 +344,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "project_end", nullable = true)
+    @Column(name = "project_end")
     public Date getProjectEnd() {
         return projectEnd;
     }
@@ -352,7 +354,7 @@ public class ResumeEntity {
     }
 
     @Basic
-    @Column(name = "project_detail", nullable = true, length = 255)
+    @Column(name = "project_detail")
     public String getProjectDetail() {
         return projectDetail;
     }
@@ -360,4 +362,27 @@ public class ResumeEntity {
     public void setProjectDetail(String projectDetail) {
         this.projectDetail = projectDetail;
     }
+
+    @Basic
+    @Column(name = "job_id", nullable = false)
+    public Integer getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Integer jobId) {
+        this.jobId = jobId;
+    }
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    enum Type{ONLINE,FILE}
 }

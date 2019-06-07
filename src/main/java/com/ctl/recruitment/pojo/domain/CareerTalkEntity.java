@@ -1,10 +1,13 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "career_talk", schema = "campus_recruitment")
 public class CareerTalkEntity {
     private int careerTalkId;

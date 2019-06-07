@@ -6,7 +6,6 @@ import com.ctl.recruitment.pojo.domain.ResumeEntity;
 import com.ctl.recruitment.pojo.domain.StudentEntity;
 import com.ctl.recruitment.pojo.result.data.CareerTalkInfo;
 import com.ctl.recruitment.pojo.result.data.MyFollowingCompanyInfo;
-import com.ctl.recruitment.pojo.result.data.StudentInfo;
 import com.ctl.recruitment.repository.*;
 import com.ctl.recruitment.service.StudentService;
 import org.springframework.stereotype.Service;
@@ -33,27 +32,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentEntity findByStudentId(String studentId) {
-        return studentDao.findByStudentId(studentId);
-    }
-
-    @Override
     public StudentEntity findByStudentUsername(String username) {
         return studentDao.findByUsername(username);
     }
 
     @Override
     public StudentEntity StudentRegister(String username, String password) {
-        StudentEntity student = new StudentEntity();
-        student.setUsername(username);
-        student.setPassword(password);
-        studentDao.save(student);
-        return student;
-    }
-
-    @Override
-    public void StudentValidate(String username, String name, String identity, String address, String university, String enrollYear, String college, String studentId) {
-
+        studentDao.Register(username,password);
+        return studentDao.findByUsername(username);
     }
 
     @Override
@@ -70,18 +56,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<ResumeEntity> findResumesByUsername(String username) {
         return resumeDao.findByStudentUsername(username);
-    }
-
-    @Override
-    public StudentInfo getPersonalInfo(String username) {
-        StudentEntity student = studentDao.findByUsername(username);
-        if(student == null)return null;
-        return new StudentInfo(
-                student.getUsername(),
-                student.getRealName(),
-                student.getUniversityName(),
-                student.getPhone(),
-                student.getEmail());
     }
 
     @Override

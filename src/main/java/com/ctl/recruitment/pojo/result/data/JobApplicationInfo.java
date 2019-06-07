@@ -1,41 +1,45 @@
 package com.ctl.recruitment.pojo.result.data;
 
+import com.ctl.recruitment.pojo.domain.ResumeEntity;
+
 public class JobApplicationInfo {
-    private String companyName;
+    private Integer resumeId;
     private Integer jobId;
+    private String studentName;
     private String jobName;
-    private String jobStatus;
+    private String companyName;
+    private ResumeEntity.Status applicationStatus;
 
-
-    public String getCompanyName() {
-        return companyName;
+    public JobApplicationInfo(Integer resumeId, Integer jobId, String studentName, String jobName, String companyName, ResumeEntity.Status applicationStatus) {
+        this.resumeId = resumeId;
+        this.jobId = jobId;
+        this.studentName = studentName;
+        this.jobName = jobName;
+        this.companyName = companyName;
+        this.applicationStatus = applicationStatus;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public Integer getResumeId() {
+        return resumeId;
     }
 
     public Integer getJobId() {
         return jobId;
     }
 
-    public void setJobId(Integer jobId) {
-        this.jobId = jobId;
+    public String getStudentName() {
+        return studentName;
     }
 
     public String getJobName() {
         return jobName;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public String getJobStatus() {
-        return jobStatus;
-    }
-
-    public void setJobStatus(String jobStatus) {
-        this.jobStatus = jobStatus;
+    public ResumeEntity.Status getApplicationStatus() {
+        return applicationStatus;
     }
 }

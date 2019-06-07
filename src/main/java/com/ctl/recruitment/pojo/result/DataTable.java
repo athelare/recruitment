@@ -1,14 +1,23 @@
 package com.ctl.recruitment.pojo.result;
 
-import com.ctl.recruitment.pojo.result.data.JobApplicationItem;
-
 import java.util.List;
 
-public class JobApplicationTable {
+public class DataTable<T> {
     private Integer code;
     private String msg;
     private Integer count;
-    private List<JobApplicationItem>data;
+    private List<T>data;
+
+    public static DataTable Error(String message){
+        return new DataTable<>(1,message,0,null);
+    }
+
+    public DataTable(Integer code, String msg, Integer count, List<T> data) {
+        this.code = code;
+        this.msg = msg;
+        this.count = count;
+        this.data = data;
+    }
 
     public Integer getCode() {
         return code;
@@ -34,11 +43,11 @@ public class JobApplicationTable {
         this.count = count;
     }
 
-    public List<JobApplicationItem> getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(List<JobApplicationItem> data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 }

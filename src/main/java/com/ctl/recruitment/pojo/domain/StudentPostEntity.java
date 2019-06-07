@@ -1,19 +1,21 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "student_post", schema = "campus_recruitment")
 public class StudentPostEntity {
-    enum Type{EXPERIENCE,RECOMMEND_CODE}
     private int postId;
-    private String title;
-    private Type type;
     private String content;
     private Timestamp postTime;
     private StudentEntity studentByAuthor;
+    private Collection<StudentCommentEntity> Comments;
 
     @Id
     @Column(name = "post_id", nullable = false)
@@ -25,29 +27,9 @@ public class StudentPostEntity {
         this.postId = postId;
     }
 
-    @Basic
-    @Column(name = "title", nullable = true, length = 20)
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = true)
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    @Basic
-    @Column(name = "content", nullable = true, length = -1)
+    @Column(name = "content", length = -1)
     public String getContent() {
         return content;
     }
@@ -57,7 +39,7 @@ public class StudentPostEntity {
     }
 
     @Basic
-    @Column(name = "post_time", nullable = true)
+    @Column(name = "post_time")
     public Timestamp getPostTime() {
         return postTime;
     }
@@ -72,19 +54,17 @@ public class StudentPostEntity {
         if (o == null || getClass() != o.getClass()) return false;
         StudentPostEntity that = (StudentPostEntity) o;
         return postId == that.postId &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(type, that.type) &&
                 Objects.equals(content, that.content) &&
                 Objects.equals(postTime, that.postTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(postId, title, type, content, postTime);
+        return Objects.hash(postId, content, postTime);
     }
 
     @ManyToOne
-    @JoinColumn(name = "author", referencedColumnName = "student_id")
+    @JoinColumn(name = "author", referencedColumnName = "username")
     public StudentEntity getStudentByAuthor() {
         return studentByAuthor;
     }
@@ -92,4 +72,14 @@ public class StudentPostEntity {
     public void setStudentByAuthor(StudentEntity studentByAuthor) {
         this.studentByAuthor = studentByAuthor;
     }
+
+    @OneToMany(mappedBy = "studentPostByPostId")
+    public Collection<StudentCommentEntity> getComments() {
+        return Comments;
+    }
+
+    public void setComments(Collection<StudentCommentEntity> comments) {
+        Comments = comments;
+    }
+
 }

@@ -1,23 +1,31 @@
 package com.ctl.recruitment.pojo.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@DynamicInsert
 @Table(name = "company", schema = "campus_recruitment")
 public class CompanyEntity {
     private String companyId;
     private String name;
     private String type;
     private String address;
-    private String tell;
+    private String phone;
     private String email;
     private String website;
     private String logo;
     private Integer size;
     private String city;
     private Date startDate;
+    private Collection<RecommendCodeEntity> recommendCodesByCompanyId;
+    private String password;
+    private String province;
+    private String detail;
 
     @Id
     @Column(name = "company_id", nullable = false, length = 30)
@@ -60,13 +68,13 @@ public class CompanyEntity {
     }
 
     @Basic
-    @Column(name = "tell", nullable = true, length = 20)
-    public String getTell() {
-        return tell;
+    @Column(name = "phone", nullable = true, length = 20)
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTell(String tell) {
-        this.tell = tell;
+    public void setPhone(String tell) {
+        this.phone = tell;
     }
 
     @Basic
@@ -118,7 +126,7 @@ public class CompanyEntity {
                 Objects.equals(name, that.name) &&
                 Objects.equals(type, that.type) &&
                 Objects.equals(address, that.address) &&
-                Objects.equals(tell, that.tell) &&
+                Objects.equals(phone, that.phone) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(website, that.website) &&
                 Objects.equals(logo, that.logo) &&
@@ -127,7 +135,7 @@ public class CompanyEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(companyId, name, type, address, tell, email, website, logo, size);
+        return Objects.hash(companyId, name, type, address,phone, email, website, logo, size);
     }
 
     @Basic
@@ -148,5 +156,44 @@ public class CompanyEntity {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    @OneToMany(mappedBy = "companyByCompanyId")
+    public Collection<RecommendCodeEntity> getRecommendCodesByCompanyId() {
+        return recommendCodesByCompanyId;
+    }
+
+    public void setRecommendCodesByCompanyId(Collection<RecommendCodeEntity> recommendCodesByCompanyId) {
+        this.recommendCodesByCompanyId = recommendCodesByCompanyId;
+    }
+
+    @Basic
+    @Column(name = "password", nullable = true, length = 30)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Basic
+    @Column(name = "province", nullable = true, length = 30)
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    @Basic
+    @Column(name = "detail", nullable = true, length = 255)
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }
