@@ -17,7 +17,7 @@ public class MyConfig implements WebMvcConfigurer {
     static {
         String os = System.getProperties().getProperty("os.name");
         if (os != null && os.toLowerCase().contains("linux")){
-            DISK_PATH="/home/uftp/webFile/";
+            DISK_PATH="/usr/lijiyu/webFile/";
             HOST="http://139.224.134.84:8080";
         }else{
             DISK_PATH="D:/webFile/";

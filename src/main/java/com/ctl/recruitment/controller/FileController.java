@@ -27,4 +27,15 @@ public class FileController {
             return ResultType.Error("Server: 文件上传失败");
         }
     }
+
+    @RequestMapping("/base64Upload")
+    public ResultType base64Upload(String file){
+        System.out.println("Base64 File upload.");
+        try{
+            return ResultType.Success(fileService.UploadBase64Image(file));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("Server: 文件上传失败");
+        }
+    }
 }

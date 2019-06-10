@@ -10,12 +10,14 @@ import java.util.List;
 public interface StudentService {
     StudentEntity findByStudentUsername(String username);
     StudentEntity StudentRegister(String username, String password);
-    Integer saveResume(ResumeEntity resume);
+    Integer findNewResumeIndex();
+    void saveResume(ResumeEntity resume);
     void saveStudentInfo(StudentEntity studentEntity);
     List<ResumeEntity> findResumesByUsername(String username);
     void addFollow(String username,String companyId);
     void deleteFollow(String username,String companyId);
     List<MyFollowingCompanyInfo> showFollow(String username);
     List<CareerTalkInfo> findCareerTalks(String username);
-
+    ResumeEntity findByResumeId(Integer resumeId);
+    void deleteByResumeId(Integer resumeId);
 }

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 
 @Repository
@@ -47,5 +49,25 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public String UploadBase64Image(String image) {
+        byte[]bytes= Base64.getDecoder().decode(image.substring("data:image/png;base64,".length()));
+        try{
+            File folder=new File(MyConfig.DISK_PATH);
+            if(!folder.exists()){
+                System.out.println("Create Folder:"+folder.mkdirs());
+            }
+            String fileName=new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+(int)(Math.random()*10000)+".png";
+            FileOutputStream fo=new FileOutputStream(MyConfig.DISK_PATH+fileName);
+            fo.write(bytes);
+            fo.close();
+            return MyConfig.HOST+MyConfig.URL_PATH+fileName;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

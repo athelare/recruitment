@@ -4,14 +4,13 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @DynamicInsert
-@Table(name = "resume", schema = "campus_recruitment")
+@Table(name = "resume", schema = "campus_recruitment", catalog = "")
 public class ResumeEntity {
-    public enum Status{PENDING,PROCESSING,FINISHED}
-
     private Integer resumeId;
     private Type resumeType;
     private String resumeAddress;
@@ -44,6 +43,7 @@ public class ResumeEntity {
     private String projectDetail;
     private Integer jobId;
     private Status status;
+    private Timestamp createTime;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -383,6 +383,18 @@ public class ResumeEntity {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Basic
+    @Column(name = "create_time", nullable = false)
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public enum Status{PENDING,PROCESSING,FINISHED}
 
     enum Type{ONLINE,FILE}
 }

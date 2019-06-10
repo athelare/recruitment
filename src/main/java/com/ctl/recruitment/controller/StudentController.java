@@ -2,22 +2,18 @@ package com.ctl.recruitment.controller;
 
 import com.ctl.recruitment.pojo.domain.ResumeEntity;
 import com.ctl.recruitment.pojo.domain.StudentEntity;
-import com.ctl.recruitment.pojo.result.data.CompanyInfo;
-import com.ctl.recruitment.pojo.result.data.JobApplicationInfo;
-import com.ctl.recruitment.pojo.result.data.JobInfo;
+import com.ctl.recruitment.pojo.result.data.*;
 import com.ctl.recruitment.pojo.result.ResultType;
-import com.ctl.recruitment.pojo.result.data.StudentInfo;
 import com.ctl.recruitment.service.CompanyService;
 import com.ctl.recruitment.service.JobService;
 import com.ctl.recruitment.service.StudentService;
 import com.ctl.recruitment.util.ExceptionUtil;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,7 +41,9 @@ public class StudentController {
             StudentEntity student = new StudentEntity();
             student.setUsername(username);
             student.setPassword(password);
-            request.getSession().setAttribute("loginUser",studentService.StudentRegister(username,password));
+            StudentEntity s = studentService.StudentRegister(username,password);
+            System.out.println(s.getUsername());
+            request.getSession().setAttribute("loginUser",studentService.findByStudentUsername(username));
             return ResultType.Success();
         }catch (Exception e){
             e.printStackTrace();
@@ -92,7 +90,11 @@ public class StudentController {
     }
 
     @RequestMapping("/login")
-    public ResultType StudentLogin(HttpServletRequest request, String username, String password){
+    public ResultType StudentLogin(
+            HttpServletRequest request,
+            @RequestParam String username,
+            @RequestParam String password
+    ){
         HttpSession session = request.getSession();
         StudentEntity student = studentService.findByStudentUsername(username);
         if(student == null)
@@ -150,6 +152,7 @@ public class StudentController {
         try {
             HttpSession session = request.getSession();
             ResumeEntity resume = new ResumeEntity();
+            resume.setResumeId(studentService.findNewResumeIndex());
             StudentEntity student = (StudentEntity) session.getAttribute("loginUser");
             if(student == null)
                 return ResultType.Error("Server: 更新信息失败，您还未登录");
@@ -240,7 +243,8 @@ public class StudentController {
             @RequestParam Date projectEnd
     ){
         try{
-            ResumeEntity resume = (ResumeEntity) request.getSession().getAttribute("newResume");
+            HttpSession session= request.getSession();
+            ResumeEntity resume = (ResumeEntity) session.getAttribute("newResume");
             if(resume == null)
                 return ResultType.Error("Server: Session中不存在resume，请按顺序进行操作！");
             resume.setInternCompany(internCompany);
@@ -253,7 +257,10 @@ public class StudentController {
             resume.setProjectDetail(projectDetail);
             resume.setProjectStart(projectBegin);
             resume.setProjectEnd(projectEnd);
-            return ResultType.Success(studentService.saveResume(resume));
+            studentService.saveResume(resume);
+            /*创建成功后销毁session中的简历对象*/
+            session.removeAttribute("newResume");
+            return ResultType.Success();
         }catch (Exception e){
             e.printStackTrace();
             return ResultType.Error("保存数据库过程中出现错误！\n"+ ExceptionUtil.getExceptionInformation(e));
@@ -278,6 +285,47 @@ public class StudentController {
             e.printStackTrace();
             return ResultType.Error("简历查找失败！");
         }
+    }
+
+    @RequestMapping("/resume/status")
+    public ResultType showResumeStatus(HttpServletRequest request){
+        StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
+        try {
+            List<ResumeEntity> resumes = studentService.findResumesByUsername(student.getUsername());
+            List<ResumeStatusInfo> res = new ArrayList<>();
+            for(ResumeEntity r:resumes){
+                res.add(new ResumeStatusInfo(
+                        r.getResumeId(),
+                        r.getJobId(),
+                        ResumeStatusInfo.df.format(r.getCreateTime()),
+                        jobService.findByJobId(r.getJobId()).getCompanyByCompanyId().getName(),
+                        jobService.findByJobId(r.getJobId()).getJobName(),
+                        r.getStatus().toString()
+                        )
+                );
+            }
+            return ResultType.Success(res);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("未能查找简历信息。");
+        }
+    }
+
+    @RequestMapping("/resume/delete")
+    public ResultType deleteResume(HttpServletRequest request,@RequestParam Integer resumeId){
+        HttpSession session = request.getSession();
+        StudentEntity studentEntity = (StudentEntity) session.getAttribute("loginUser");
+        ResumeEntity resumeEntity = studentService.findByResumeId(resumeId);
+        /*异常处理*/
+        if(studentEntity == null)
+            return ResultType.Error("您还未登录！");
+        if(resumeEntity == null)
+            return ResultType.Error("不存在该简历！");
+        if(!resumeEntity.getStudentUsername().equals(studentEntity.getUsername()))
+            return ResultType.Error("不是您的简历！");
+
+        studentService.deleteByResumeId(resumeId);
+        return ResultType.Success();
     }
 
     @RequestMapping("/personal-info")

@@ -14,10 +14,12 @@ public interface ResumeDao extends JpaRepository<ResumeEntity,Long> {
 
     ResumeEntity findByResumeId(Integer resumeId);
 
-    @Query(nativeQuery = true,value = "SELECT MAX(resume_id) FROM resume")
+    @Query(nativeQuery = true,value = "SELECT 1 + MAX(resume_id) FROM resume")
     Integer getNewResumeIndex();
 
     List<ResumeEntity> findByStudentUsername(String username);
+
+    void deleteByResumeId(Integer resumeId);
 
     /*处理职位申请，待处理申请，正在处理申请，已处理申请，全部申请四种类型*/
     /*全部申请*/
@@ -45,7 +47,5 @@ public interface ResumeDao extends JpaRepository<ResumeEntity,Long> {
 
     @Query(value = "SELECT COUNT(resume.resume_id) FROM resume INNER JOIN job j on resume.job_id = j.job_id WHERE j.company_id = :companyId AND resume.status = 'FINISHED'",nativeQuery = true)
     Integer countFinishedByCompanyId(String companyId);
-
-
 
 }

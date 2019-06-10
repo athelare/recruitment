@@ -17,6 +17,11 @@ public class JobServiceImpl implements JobService {
     JobDao jobDao;
 
     @Override
+    public JobEntity findByJobId(Integer jobId) {
+        return jobDao.findByJobId(jobId);
+    }
+
+    @Override
     public List<JobInfo> findJobsByCityAndName(String city, String name) {
         List<JobEntity>jobEntities = jobDao.findJobsByCityAndName(city,'%'+name+'%') ;
         List<JobInfo> jobInfoList = new ArrayList<>();

@@ -40,12 +40,18 @@ public class StudentServiceImpl implements StudentService {
     public StudentEntity StudentRegister(String username, String password) {
         studentDao.Register(username,password);
         return studentDao.findByUsername(username);
+
     }
 
     @Override
-    public Integer saveResume(ResumeEntity resume) {
-        resumeDao.save(resume);
+    public Integer findNewResumeIndex() {
         return resumeDao.getNewResumeIndex();
+    }
+
+    @Override
+    public void saveResume(ResumeEntity resume) {
+        resumeDao.save(resume);
+        resumeDao.getNewResumeIndex();
     }
 
     @Override
@@ -60,7 +66,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void addFollow(String username, String companyId) {
-        followDao.addFollow(username,companyId);
+        if(null == followDao.findByUsernameAndCompanyId(username,companyId))
+            followDao.addFollow(username,companyId);
     }
 
     @Override
@@ -73,7 +80,7 @@ public class StudentServiceImpl implements StudentService {
         List<CompanyEntity> companyEntities = companyDao.showFollowedCompany(username);
         List<MyFollowingCompanyInfo> res= new ArrayList<>();
         for(CompanyEntity c:companyEntities){
-            res.add(new MyFollowingCompanyInfo(c.getName(),new Date(followDao.findByUsernameAndCompanyId(username,c.getCompanyId()).getFollowDate().getTime())));
+            res.add(new MyFollowingCompanyInfo(c.getCompanyId(), c.getName(),new Date(followDao.findByUsernameAndCompanyId(username,c.getCompanyId()).getFollowDate().getTime())));
         }
         return res;
     }
@@ -89,5 +96,15 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return res;
+    }
+
+    @Override
+    public ResumeEntity findByResumeId(Integer resumeId) {
+        return resumeDao.findByResumeId(resumeId);
+    }
+
+    @Override
+    public void deleteByResumeId(Integer resumeId) {
+        resumeDao.deleteByResumeId(resumeId);
     }
 }
