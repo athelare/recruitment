@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @DynamicInsert
-@Table(name = "resume", schema = "campus_recruitment", catalog = "")
+@Table(name = "resume", schema = "campus_recruitment")
 public class ResumeEntity {
     private Integer resumeId;
     private Type resumeType;
@@ -92,7 +92,7 @@ public class ResumeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ResumeEntity that = (ResumeEntity) o;
-        return resumeId == that.resumeId &&
+        return resumeId.equals(that.resumeId) &&
                 Objects.equals(resumeType, that.resumeType) &&
                 Objects.equals(resumeAddress, that.resumeAddress) &&
                 Objects.equals(introduce, that.introduce);
@@ -394,7 +394,7 @@ public class ResumeEntity {
         this.createTime = createTime;
     }
 
-    public enum Status{PENDING,PROCESSING,FINISHED}
+    public enum Status{PENDING,PROCESSING,APPROVED,REJECT}
 
     enum Type{ONLINE,FILE}
 }

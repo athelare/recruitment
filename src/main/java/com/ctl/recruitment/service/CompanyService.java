@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CompanyService {
     List<CompanyInfo> findCompaniesByCityAndName(String city,String name);
+    List<CompanyInfo> findUnverifiedCompanies();
+    List<CompanyInfo> findVerifiedCompanies();
 }

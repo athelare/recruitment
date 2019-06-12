@@ -20,4 +20,7 @@ public interface FollowDao extends JpaRepository<FollowEntity,Long> {
 
     @Query(value = "SELECT * FROM follow WHERE student_username = :username AND company_id = :companyId",nativeQuery = true)
     FollowEntity findByUsernameAndCompanyId(String username,String companyId);
+
+    @Query(value = "SELECT COUNT(*) FROM follow WHERE student_username = :username AND company_id = :companyId",nativeQuery = true)
+    Integer countFollow(String username,String companyId);
 }

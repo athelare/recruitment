@@ -31,4 +31,13 @@ public class JobServiceImpl implements JobService {
         }
         return jobInfoList;
     }
+
+    @Override
+    public List<JobInfo> findByType(String type) {
+        List<JobInfo> res = new ArrayList<>();
+        for(JobEntity j : jobDao.findByType(type)){
+            res.add(new JobInfo(j));
+        }
+        return res;
+    }
 }

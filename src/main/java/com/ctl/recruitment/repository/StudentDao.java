@@ -1,11 +1,14 @@
 package com.ctl.recruitment.repository;
 
+import com.ctl.recruitment.pojo.domain.CompanyEntity;
 import com.ctl.recruitment.pojo.domain.StudentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 @Transactional
@@ -18,4 +21,6 @@ public interface StudentDao extends JpaRepository<StudentEntity,Long> {
     StudentEntity findByUsername(String username);
 
     StudentEntity findByStudentId(String studentId);
+
+    List<StudentEntity> findByVerified(Byte verified);
 }

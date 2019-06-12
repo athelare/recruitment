@@ -22,10 +22,10 @@ public class CompanyEntity {
     private Integer size;
     private String city;
     private Date startDate;
-    private Collection<RecommendCodeEntity> recommendCodesByCompanyId;
     private String password;
     private String province;
     private String detail;
+    private Byte verified;
 
     @Id
     @Column(name = "company_id", nullable = false, length = 30)
@@ -158,15 +158,6 @@ public class CompanyEntity {
         this.startDate = startDate;
     }
 
-    @OneToMany(mappedBy = "companyByCompanyId")
-    public Collection<RecommendCodeEntity> getRecommendCodesByCompanyId() {
-        return recommendCodesByCompanyId;
-    }
-
-    public void setRecommendCodesByCompanyId(Collection<RecommendCodeEntity> recommendCodesByCompanyId) {
-        this.recommendCodesByCompanyId = recommendCodesByCompanyId;
-    }
-
     @Basic
     @Column(name = "password", nullable = true, length = 30)
     public String getPassword() {
@@ -195,5 +186,15 @@ public class CompanyEntity {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    @Basic
+    @Column(name = "verified", nullable = false)
+    public Byte getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Byte verified) {
+        this.verified = verified;
     }
 }

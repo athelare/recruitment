@@ -4,6 +4,7 @@ import com.ctl.recruitment.pojo.domain.ResumeEntity;
 import com.ctl.recruitment.pojo.domain.StudentEntity;
 import com.ctl.recruitment.pojo.result.data.CareerTalkInfo;
 import com.ctl.recruitment.pojo.result.data.MyFollowingCompanyInfo;
+import com.ctl.recruitment.pojo.result.data.StudentInfo;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface StudentService {
     List<CareerTalkInfo> findCareerTalks(String username);
     ResumeEntity findByResumeId(Integer resumeId);
     void deleteByResumeId(Integer resumeId);
+    boolean isFollow(String username,String companyId);
+    List<StudentInfo> findUnverified();
+    List<StudentInfo> findVerified();
 }

@@ -6,13 +6,15 @@ public class StudentInfo {
     private String universityName;
     private String phone;
     private String email;
+    private String portrait;
 
-    public StudentInfo(String username, String realName, String universityName, String phone, String email) {
+    public StudentInfo(String username, String realName, String universityName, String phone, String email, String portrait) {
         this.username = username;
         this.realName = realName;
         this.universityName = universityName;
         this.phone = phone;
         this.email = email;
+        this.portrait = portrait;
     }
 
     public String getUsername() {
@@ -53,5 +55,9 @@ public class StudentInfo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPortrait() {
+        return portrait;
     }
 }

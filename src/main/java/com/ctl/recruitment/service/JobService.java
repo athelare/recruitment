@@ -8,4 +8,5 @@ import java.util.List;
 public interface JobService {
     JobEntity findByJobId(Integer jobId);
     List<JobInfo> findJobsByCityAndName(String city,String name);
+    List<JobInfo> findByType(String type);
 }

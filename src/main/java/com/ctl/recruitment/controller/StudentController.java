@@ -55,6 +55,7 @@ public class StudentController {
     @RequestMapping("/send-student-info")
     public ResultType StudentValidate(
             HttpServletRequest request,
+            @RequestParam String portrait,
             @RequestParam String realName,
             @RequestParam String studentId,
             @RequestParam String identityNum,
@@ -69,6 +70,7 @@ public class StudentController {
             StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
             if(student == null)
                 return ResultType.Error("Server: 更新信息失败，您还未登录");
+            student.setPortrait(portrait);
             student.setStudentId(studentId);
             student.setRealName(realName);
             student.setUniversityProvince(universityProvince);
@@ -105,6 +107,13 @@ public class StudentController {
         return ResultType.Success();
     }
 
+    @RequestMapping("/logout")
+    public ResultType StudentLogout(HttpServletRequest request){
+        if(null!=request.getSession().getAttribute("loginUser"))
+            request.getSession().removeAttribute("loginUser");
+        return ResultType.Success();
+    }
+
     @RequestMapping("/findJobs")
     public List<JobInfo>findJobs(
             HttpServletRequest request,
@@ -133,10 +142,26 @@ public class StudentController {
     }
 
     @RequestMapping("/find/company-name")
-    public ResultType findCompanyByName(@RequestParam String city,@RequestParam String name){
-
+    public ResultType findCompanyByName(HttpServletRequest request,@RequestParam String city,@RequestParam String name){
+        StudentEntity student = (StudentEntity) request.getSession().getAttribute("loginUser");
         try{
             List<CompanyInfo> res = companyService.findCompaniesByCityAndName(city,name);
+            if(student != null){
+                for(CompanyInfo i : res){
+                    i.setFollowing(studentService.isFollow(student.getUsername(),i.getCompanyId()));
+                }
+            }
+            return ResultType.Success(res);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("服务器查找失败");
+        }
+    }
+
+    @RequestMapping("/find/job-type")
+    public ResultType findJobByType(@RequestParam String type){
+        try{
+            List<JobInfo> res = jobService.findByType(type);
             return ResultType.Success(res);
         }catch (Exception e){
             e.printStackTrace();
@@ -338,8 +363,8 @@ public class StudentController {
                             student.getRealName(),
                             student.getUniversityName(),
                             student.getPhone(),
-                            student.getEmail()
-                    )
+                            student.getEmail(),
+                            student.getPortrait())
             );
         }catch (Exception e){
             e.printStackTrace();

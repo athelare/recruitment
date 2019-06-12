@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @DynamicInsert
-@Table(name = "student", schema = "campus_recruitment")
+@Table(name = "student", schema = "campus_recruitment", catalog = "")
 public class StudentEntity{
     private String username;
     private String studentId;
@@ -27,6 +27,7 @@ public class StudentEntity{
     private String realName;
     private String identityNum;
     private String phone;
+    private Byte verified;
 
     @Basic
     @Column(name = "student_id", length = 20)
@@ -99,7 +100,7 @@ public class StudentEntity{
     }
 
     @Basic
-    @Column(name = "portrait", length = 20)
+    @Column(name = "portrait", length = 100)
     public String getPortrait() {
         return portrait;
     }
@@ -217,5 +218,15 @@ public class StudentEntity{
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Basic
+    @Column(name = "verified", nullable = false)
+    public Byte getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Byte verified) {
+        this.verified = verified;
     }
 }

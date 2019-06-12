@@ -12,6 +12,7 @@ public class JobInfo {
             companyId,
             jobCategory,
             companyName,
+            city,
             place;
 
     public JobInfo(JobEntity jobEntity){
@@ -23,6 +24,7 @@ public class JobInfo {
         this.requireNum = jobEntity.getRequireNum();
         this.jobName = jobEntity.getJobName();
         this.jobType = jobEntity.getWorkType();
+        this.city = jobEntity.getCompanyByCompanyId().getCity();
     }
 
     public Integer getJobId() {
@@ -48,5 +50,9 @@ public class JobInfo {
     }
     public String getJobCategory() {
         return jobCategory;
+    }
+
+    public String getCity() {
+        return city;
     }
 }

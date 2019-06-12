@@ -28,4 +28,6 @@ public interface JobDao extends JpaRepository<JobEntity,Long> {
 
     @Query(value = "SELECT * FROM job WHERE company_id = :companyId ORDER BY job_id DESC LIMIT :bg,:size ",nativeQuery = true)
     List<JobEntity>findByCompanyId(String companyId,Integer bg,Integer size);
+
+    List<JobEntity>findByType(String type);
 }

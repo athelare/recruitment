@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>layui在线调试</title>
+  <link rel="stylesheet" href="/css/layui.css">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <style>
+    body{margin: 10px;}
+
+    .fly-home{
+    position: relative;
+    padding: 30px 0 30px;
+    }
+    .fly-panel {
+    margin-bottom: 15px;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+    }
+    #profile {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    }
+    img {
+        border: none;
+    }
+    .icon-renzheng {
+    position: relative;
+    color: #FFB800;
+}
+.iconfont {
+    font-family: "layui-icon-fly" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+    .icon-renzheng:before {
+    content: "\e62e";
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.fly-home {
+    position: relative;
+    padding: 30px 0 30px;
+}
+
+blockquote a{
+  color: #006655;
+}
+
+blockquote a:hover {
+  color: #11aa99;
+}
+
+</style>
+</head>
+<body>
+ <blockquote class="layui-elem-quote layui-quote-nm" id="footer">
+   <span id="#greeting" style="font-size: 24px">下午好！</span>
+   <a id="companyName1" href="" style="font-size: 22px">XX有限公司</a>
+   <br><br>
+   <span style="font-size: 18px"><i class="layui-icon layui-icon-notice"></i></span>
+    <span style="font-size: 18px">申请：</span>
+    <span id="#unprocessed" style="font-size: 18px; font-weight:550">9个</span>
+    <a href="/申请处理.html" target="body"><span style="font-size: 18px">  未处理申请</span></a>
+ </blockquote>
+
+  <div class="layui-tab layui-tab-brief" lay-filter="demo">
+  <ul class="layui-tab-title">
+    <li class="layui-this">我的信息</li>
+    <li>修改头像</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show fly-home fly-panel">
+  <a href="javascript:;"><img  id="profile" src="/images/timg.jpg"  style="border: medium double #5FB878"></a>
+  <i class="iconfont icon-renzheng" title="Fly社区认证"></i>
+  <h1>
+    <span id="companyName2">XX有限公司</span>
+    <i class="iconfont icon-nan"></i>
+    <!-- <i class="iconfont icon-nv"></i>  -->
+    <i class="layui-badge fly-badge-vip">已认证</i>
+    <!--
+    <span style="color:#c00;">（管理员）</span>
+    <span style="color:#5FB878;">（社区之光）</span>
+    <span>（该号已被封）</span>
+    -->
+  </h1>
+<img  src="/images/timgreverse.png" style="  width: 400px;
+    height: 30px;">
+<p class="fly-home-info"  style="font-size:18px;">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-util" style="color: blue; font-size:20px" ></i></div><span  style="font-size:18px; font-weight:550"> 行业： </span> <span id="category" style="font-size:18px;">电子通信</span>
+    
+  </p>
+
+  <p class="fly-home-info"  style="font-size:18px;">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: #5FB878; font-size:20px" ></i></div><span  style="font-size:18px; font-weight:550">  2015-6-17  </span> <span id="addtime" style="font-size:18px;">加入</span></p>
+    
+  </p>
+
+  <p class="fly-home-sign" style="font-size:18px"><i class="layui-icon layui-icon-location"  style="color: red; font-size:20px" ></i><span> 来自 <span id="province" style="font-size:18px; font-weight:550">上海</span></span></p>
+
+  <p class="fly-home-info"  style="font-size:18px;">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-release" style="color: red; font-size:20px" ></i></div><span  style="font-size:18px; font-weight:550">  详细地址：</span> <span id="address" style="font-size:18px; ">松江区文汇路300弄</span><a href="javascript:;"><span>    <i class="layui-icon layui-icon-edit" style="color: grey; font-size:20px" ></i></span></a></p>
+
+    <p class="fly-home-info"  style="font-size:18px;">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-cellphone" style="color: #5FB878; font-size:20px" ></i></div><span  id="phone" style="font-size:18px; font-weight:550">  电话：</span> <span id="tel" style="font-size:18px; ">18516170447</span><a href="javascript:;"><span>    <i class="layui-icon layui-icon-edit" style="color: grey; font-size:20px" ></i></span></a></p>
+
+    <p class="fly-home-info"  style="font-size:18px;">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-list" style="color: blue; font-size:20px" ></i></div><span  style="font-size:18px; font-weight:550">  企业邮箱：</span> <span id="email" style="font-size:18px; ">648353443@qq.com</span><a href="javascript:;" id="email_revise"><span>    <i class="layui-icon layui-icon-edit" style="color: grey; font-size:20px" ></i></span></a></p>
+
+    <p class="fly-home-info"  style="font-size:18px;">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-list" style="color: blue; font-size:20px" ></i></div><span id="website" style="font-size:18px; font-weight:550">  企业网址：</span> <a href="" id="email" style="font-size:18px; ">www.baidu.com</a><a href="javascript:;" id="email_revise"><span>    <i class="layui-icon layui-icon-edit" style="color: grey; font-size:20px" ></i></span></a></p>
+</div>
+
+    <div class="layui-tab-item">
+ 
+    </div>
+  </div>
+</div>
+ 
+  <!--<img  src="..\frame\images\city.png" style="position: absolute; bottom: 20px; left:30px; width: 450px; height: 70px">-->
+<script src="/js/layui.all.js"></script>
+<script type="text/javascript">
+  $.ajax({
+      url: "/company/info",
+      dataType: "json", 
+      success: function(result) {
+        //if(result.status === OK) {
+          $("#companyName1").text(result.data.companyName);
+          $("#companyName2").text(result.data.companyName);
+        //} 
+      }
+    });
+</script>
+<script>
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+  var laydate = layui.laydate //日期
+  ,laypage = layui.laypage //分页
+  ,layer = layui.layer //弹层
+  ,table = layui.table //表格
+  ,carousel = layui.carousel //轮播
+  ,upload = layui.upload //上传
+  ,element = layui.element //元素操作
+  ,slider = layui.slider //滑块
+      //监听Tab切换
+  element.on('tab(demo)', function(data){
+    layer.tips( this.innerHTML, this, {
+      tips: 1
+    });
+  });
+
+      //执行实例
+      var uploadInst = upload.render({
+        elem: '#profile' //绑定元素
+        ,url: '/upload/' //上传接口
+        ,done: function(res){
+          //上传完毕回调
+        }
+        ,error: function(){
+          //请求异常回调
+        }
+      });
+    });
+    </script>
+<script>
+$('#email_revise').click(function(){
+          $("#email").attr("contenteditable", "true");
+        })
+
+layui.config({
+  version: '1554901097999' //为了更新 js 缓存，可忽略
+});
+ 
+
+
+  
+  //底部信息
+  var footerTpl = lay('#footer')[0].innerHTML;
+  lay('#footer').html(layui.laytpl(footerTpl).render({}))
+  .removeClass('layui-hide');
+
+</script>
+</body>
+</html>        
+        

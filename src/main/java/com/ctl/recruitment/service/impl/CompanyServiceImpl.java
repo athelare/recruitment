@@ -24,4 +24,22 @@ public class CompanyServiceImpl implements CompanyService {
         }
         return res;
     }
+
+    @Override
+    public List<CompanyInfo> findUnverifiedCompanies() {
+        List<CompanyInfo> res = new ArrayList<>();
+        for(CompanyEntity c:companyDao.findByVerified(new Byte("0"))){
+            res.add(new CompanyInfo(c));
+        }
+        return res;
+    }
+
+    @Override
+    public List<CompanyInfo> findVerifiedCompanies() {
+        List<CompanyInfo> res = new ArrayList<>();
+        for(CompanyEntity c:companyDao.findByVerified(new Byte("1"))){
+            res.add(new CompanyInfo(c));
+        }
+        return res;
+    }
 }

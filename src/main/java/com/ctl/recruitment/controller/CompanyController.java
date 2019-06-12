@@ -145,6 +145,56 @@ public class CompanyController {
         }
     }
 
+    /*修改职位*/
+    @RequestMapping("/job/modify")
+    public ResultType modifyJob(
+            HttpServletRequest request,
+            @RequestParam Integer jobId,
+            @RequestParam String jobName,
+            @RequestParam Date appDeadline,
+            @RequestParam Integer requireNum,
+            @RequestParam String workHour,
+            @RequestParam String detail){
+        CompanyEntity c = (CompanyEntity) request.getSession().getAttribute("loginCompany");
+        JobEntity j = jobDao.findByJobId(jobId);
+        if(c == null)return ResultType.Error("您还未登录！");
+        if(j == null || (!j.getCompanyByCompanyId().getCompanyId().equals(c.getCompanyId())))
+            return ResultType.Error("jobId输入错误！");
+        try {
+            if(jobName!= null && jobName.length()>0)j.setJobName(jobName);
+            if(appDeadline != null)j.setAppDeadline(appDeadline);
+            if(requireNum != null)j.setRequireNum(requireNum);
+            if(workHour != null && workHour.length() > 0)j.setWorkHour(workHour);
+            if(detail!=null && detail.length()>0)j.setDetail(detail);
+            jobDao.save(j);
+            return ResultType.Success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("未知错误，工作修改失败");
+        }
+    }
+
+    /*删除职位*/
+    @RequestMapping("/job/delete")
+    public ResultType modifyJob(
+            HttpServletRequest request,
+            @RequestParam Integer jobId
+    ){
+        JobEntity j = jobDao.findByJobId(jobId);
+        CompanyEntity c = (CompanyEntity) request.getSession().getAttribute("loginCompany");
+        if(c == null)return ResultType.Error("您还未登录！");
+        if(j == null || (!j.getCompanyByCompanyId().getCompanyId().equals(c.getCompanyId())))
+            return ResultType.Error("jobId输入错误！");
+        try {
+            jobDao.delete(j);
+            return ResultType.Success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("未知错误，工作删除失败");
+        }
+
+    }
+
     /*查看职位*/
     @RequestMapping("/job/list")
     public DataTable<JobInfo> findAllJobs(
@@ -297,4 +347,36 @@ public class CompanyController {
         return ResultType.Success(resumeDao.findByResumeId(resumeId));
     }
 
+    @RequestMapping("/application/op/{type}")
+    public ResultType modifyApplicationStatus(
+            HttpServletRequest request,
+            @RequestParam Integer resumeId,
+            @PathVariable String type
+    ){
+        CompanyEntity c = (CompanyEntity) request.getSession().getAttribute("loginCompany");
+        if(c == null)return ResultType.Error("您还未登录！");
+        ResumeEntity resume = resumeDao.findByResumeId(resumeId);
+        if(!jobDao.findByJobId(resume.getJobId()).getCompanyByCompanyId().getCompanyId().equals(c.getCompanyId())){
+            return ResultType.Error("resumeId输入不正确，不是您公司的申请！");
+        }
+        switch (type.charAt(0)){
+            case 'd':{
+                resume.setStatus(ResumeEntity.Status.PROCESSING);
+                break;
+            }case 'a':{
+                resume.setStatus(ResumeEntity.Status.APPROVED);
+                break;
+            }case 'r':{
+                resume.setStatus(ResumeEntity.Status.REJECT);
+                break;
+            }default:break;
+        }
+        try {
+            resumeDao.save(resume);
+            return ResultType.Success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultType.Error("参数接收到，但是未能保存数据库");
+        }
+    }
 }

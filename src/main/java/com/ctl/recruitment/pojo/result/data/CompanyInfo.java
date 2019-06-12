@@ -4,7 +4,9 @@ import com.ctl.recruitment.pojo.domain.CompanyEntity;
 
 public class CompanyInfo {
     private String companyId,companyName,type,address,phone,email,logo,city,establishDate;
+    private boolean isFollowing;
     public CompanyInfo(CompanyEntity c){
+        isFollowing = false;
         this.companyId = c.getCompanyId();
         this.companyName = c.getName();
         this.type = c.getType();
@@ -51,5 +53,13 @@ public class CompanyInfo {
 
     public String getEstablishDate() {
         return establishDate;
+    }
+
+    public boolean isFollowing() {
+        return isFollowing;
+    }
+
+    public void setFollowing(boolean following) {
+        isFollowing = following;
     }
 }

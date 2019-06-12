@@ -6,6 +6,7 @@ import com.ctl.recruitment.pojo.domain.ResumeEntity;
 import com.ctl.recruitment.pojo.domain.StudentEntity;
 import com.ctl.recruitment.pojo.result.data.CareerTalkInfo;
 import com.ctl.recruitment.pojo.result.data.MyFollowingCompanyInfo;
+import com.ctl.recruitment.pojo.result.data.StudentInfo;
 import com.ctl.recruitment.repository.*;
 import com.ctl.recruitment.service.StudentService;
 import org.springframework.stereotype.Service;
@@ -106,5 +107,43 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteByResumeId(Integer resumeId) {
         resumeDao.deleteByResumeId(resumeId);
+    }
+
+    @Override
+    public boolean isFollow(String username, String companyId) {
+        return followDao.countFollow(username,companyId)>0;
+    }
+
+
+    @Override
+    public List<StudentInfo> findUnverified() {
+        List<StudentInfo> res = new ArrayList<>();
+        for(StudentEntity s:studentDao.findByVerified(new Byte("0"))){
+            res.add(new StudentInfo(
+                    s.getUsername(),
+                    s.getRealName(),
+                    s.getUniversityName(),
+                    s.getPhone(),
+                    s.getEmail(),
+                    s.getPortrait()
+            ));
+        }
+        return res;
+    }
+
+    @Override
+    public List<StudentInfo> findVerified() {
+        List<StudentInfo> res = new ArrayList<>();
+        for(StudentEntity s:studentDao.findByVerified(new Byte("1"))){
+            res.add(new StudentInfo(
+                    s.getUsername(),
+                    s.getRealName(),
+                    s.getUniversityName(),
+                    s.getPhone(),
+                    s.getEmail(),
+                    s.getPortrait()
+            ));
+        }
+        return res;
     }
 }

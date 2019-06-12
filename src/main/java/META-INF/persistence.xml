@@ -11,6 +11,7 @@
         <class>com.ctl.recruitment.pojo.domain.StudentPostEntity</class>
         <class>com.ctl.recruitment.pojo.domain.RecommendCodeEntity</class>
         <class>com.ctl.recruitment.pojo.domain.JobEntity</class>
+        <class>com.ctl.recruitment.pojo.domain.AdministratorEntity</class>
         <properties>
             <property name="hibernate.connection.url"
                       value="jdbc:mysql://localhost:3306/campus_recruitment?characterEncoding=UTF-8&amp;serverTimezone=CTT"/>
