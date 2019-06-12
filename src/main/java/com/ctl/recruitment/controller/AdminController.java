@@ -55,6 +55,22 @@ public class AdminController {
         }
         return DataTable.Error("查看列表出现错误！");
     }
+    @RequestMapping("/done/{type}")
+    public DataTable getDoneList(HttpServletRequest request, @PathVariable String type){
+        if(null == request.getSession().getAttribute("loginAdmin"))
+            return DataTable.Error("管理员未登录！");
+        switch (type.charAt(0)){
+            case 's':{
+                return new DataTable<>(0,"",studentService.findVerified().size(),studentService.findVerified());
+            }
+            case 'c':{
+                return new DataTable<>(0, "", companyService.findVerifiedCompanies().size(), companyService.findVerifiedCompanies());
+            }
+            default:break;
+        }
+        return DataTable.Error("查看列表出现错误！");
+    }
+
 
     @RequestMapping("/pass/{type}")
     public ResultType getInfoList(HttpServletRequest request, @PathVariable String type,@RequestParam String username){

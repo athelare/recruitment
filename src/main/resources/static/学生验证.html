@@ -33,18 +33,12 @@
 </script>
  
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-xs" lay-event="pass">同意</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deny">拒绝</a>
 </script>
     </div>
     <div class="layui-tab-item">
       <table class="layui-hide" id="demo" lay-filter="test"></table>
- 
-<script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
     </div>
     <div class="layui-tab-item">
       <div id="pageDemo"></div>
@@ -56,6 +50,7 @@
 
   
 <script src="/js/layui.all.js"></script>
+ <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script>
 layui.config({
   version: '1554901097999' //为了更新 js 缓存，可忽略
@@ -71,40 +66,39 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   ,element = layui.element //元素操作
   ,slider = layui.slider //滑块
 
-  
-  //监听Tab切换
-  element.on('tab(demo)', function(data){
-    layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
-      tips: 1
-    });
-  });
-  
-  //执行一个 table 实例
-  var table = layui.table;
+
   
   table.render({
-    elem: '#test'
-    ,url:'/admin/list/stu'
-    ,toolbar: '#toolbarDemo'
-    ,title: '用户数据表'
-    ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
-      ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-      ,{field:'realName', title:'真实姓名', width:120, edit: 'text'}
-      ,{field:'studentId', title:'学号', width:100, edit: 'text', templet: function(res){
-        return '<em>'+ res.email +'</em>'
-      }}
-      ,{field:'identityNum', title:'身份证号码', width:80, edit: 'text', sort: true}
-      ,{field:'universityProvince', title:'学校省份', width:100}
-      ,{field:'universityName', title:'学校名称', width:80}
-      ,{field:'enrollYear', title:'入学年份', width:80, sort: true}
-      ,{field:'schoolName', title:'学院名称', width:120}
-      ,{field:'phone', title:'电话', width:100, sort: true}
-      ,{field:'email', title:'邮箱', width:120}
-      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-    ]]
-    ,page: true
-  });
+        elem: '#test'
+        ,url:'/admin/list/stu'
+        ,toolbar: '#toolbarDemo'
+        ,title: '学生验证'
+        ,cols: [[
+            {type: 'checkbox', fixed: 'left'}
+            ,{field:'username', title:'用户名', width:80, fixed: 'left', unresize: true, sort: true}
+            ,{field:'realName', title:'真实姓名', width:120, edit: 'text'}
+            ,{field:'universityName', title:'所在大学', width:100, edit: 'text'}
+            ,{field:'phone', title:'电话号码', width:80, edit: 'text', sort: true}
+            ,{field:'email', title:'邮箱地址', width:100}
+            ,{fixed:'right', title:'操作', toolbar: '#barDemo', width:150}
+        ]]
+        ,page: true
+    });
+
+    table.render({
+        elem: '#demo'
+        ,url:'/admin/done/stu'
+        ,toolbar: '#toolbarDemo'
+        ,title: '学生验证'
+        ,cols: [[
+            {field:'username', title:'用户名', width:150, fixed: 'left', unresize: true, sort: true}
+            ,{field:'realName', title:'真实姓名', width:120, edit: 'text'}
+            ,{field:'universityName', title:'所在大学', width:100, edit: 'text'}
+            ,{field:'phone', title:'电话号码', width:100, edit: 'text', sort: true}
+            ,{field:'email', title:'邮箱地址', width:120}
+        ]]
+        ,page: true
+    });
   
   //头工具栏事件
   table.on('toolbar(test)', function(obj){
@@ -125,26 +119,25 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   });
   
   //监听行工具事件
-  table.on('tool(test)', function(obj){
-    var data = obj.data;
-    //console.log(obj)
-    if(obj.event === 'del'){
-      layer.confirm('真的删除行么', function(index){
-        obj.del();
-        layer.close(index);
-      });
-    } else if(obj.event === 'edit'){
-      layer.prompt({
-        formType: 2
-        ,value: data.email
-      }, function(value, index){
-        obj.update({
-          email: value
-        });
-        layer.close(index);
-      });
-    }
-  });
+    table.on('tool(test)', function(obj){
+        var data = obj.data;
+        //console.log(obj)
+        if(obj.event === 'pass'){
+            $.ajax({
+                url:"/admin/pass/student",
+                data:{username:obj.data.username},
+                success:function (result) {
+                    if(result.status === 0){
+                        window.location.reload();
+                    }else {
+                        layer.msg("操作过程出现问题");
+                    }
+                }
+            });
+        } else if(obj.event === 'deny'){
+            layer.msg('操作成功！');
+        }
+    });
   
   slider.render({
     elem: '#sliderDemo'
