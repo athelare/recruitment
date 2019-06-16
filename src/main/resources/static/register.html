@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="#{register.welcome}">企业版—注册</title>
+    <!--<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/register.css" th:href="@{/css/register.css}" >
+</head>
+
+<body style="background-image: url(../登录注册界面/img/bg2.jpg);background-size: 100%">
+<div class="layui-main user">
+    <div class="layui-clear main">
+        <div class="layui-logo">
+            <a href="#" target="_blank"><img src="../登录注册界面/img/校园招聘.png" /></a>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend class="text-white" th:text="#{register.welcome}">企业版—注册</legend>
+        </fieldset>
+        <div class="layui-form layui-form-pane">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <input class="layui-input" id="username" placeholder="请输入用户名" th:placeholder="#{placeholder.username}" type="text" minlength="6" maxlength="20" lay-verify="required|username" autofocus="autofocus" autocomplete="off">
+                </div>
+                <div class="layui-form-item">
+                    <input class="layui-input" id="password" placeholder="请输入密码" th:placeholder="#{placeholder.password}" type="password" maxlength="20" lay-verify="required|pwd" autocomplete="off">
+                </div>
+                <div class="layui-form-item">
+                    <input class="layui-input" placeholder="请再次输入密码" th:placeholder="#{placeholder.rePwd}" type="password" maxlength="20" lay-verify="required|rePwd" autocomplete="off">
+                </div>
+                <div class="layui-form-item">
+                    <input class="layui-input" id="nickname" placeholder="请输入公司名" th:placeholder="#{placeholder.nickname}" type="text" maxlength="20" lay-verify="required" autofocus="autofocus" autocomplete="off">
+                </div>
+                <div class="layui-form-item form_code">
+                    <input class="layui-input" id="email"    placeholder="请输入邮箱" th:placeholder="#{placeholder.email}" type="text" maxlength="30" lay-verify="required|email">
+                </div>
+                <div class="layui-form-item form_code">
+                    <input id="code" class="layui-input" placeholder="请输入验证码" th:placeholder="#{placeholder.validate}" type="text" maxlength="6" lay-verify="required|code">
+                    <div class="code"><img id="refCode_reg_img" width="120" height="38"></div>
+                </div>
+
+                <div class="layui-form-item" style="float: left;margin-left: -10px;">
+                    <input lay-filter="agreen-checkbox" title="我同意" th:title="#{register.agree}" type="checkbox" lay-skin="primary" checked>
+                    <a href="#" target="_blank" th:text="#{register.contract}">《注册协议》</a>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="layui-form-item">
+                    <button id="reg" type="submit" class="login_btn layui-btn layui-btn-radius layui-btn-normal" lay-submit lay-filter="register" th:text="#{register.now}">立即注册</button>
+                </div>
+                <div>
+                    <small class="text-white" th:text="#{register.alreadyHave}">已经有账户了？</small>
+                    <a href="login.html" th:text="#{register.login}">点此登录</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/js/layui.all.js"></script>
+<script type="text/javascript" src="/js/register.js" ></script>
+
+</html>

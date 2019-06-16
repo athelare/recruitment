@@ -68,7 +68,7 @@
 	//监听提交  
 	form.on("submit(login)", function() {
 		$.ajax({
-			url: "http://139.224.134.84:8080/company/login",
+			url: "/company/login",
 			type: "post",
 			dataType:"json",
 			data: {
@@ -77,7 +77,7 @@
 			},
 			success: function(result) {
 				if(result.status === OK) {
-					location = "C:/Users/Carl/Desktop/frame/index.html";
+					location.href = "C:/Users/Carl/Desktop/frame/index.html";
 				} else {
 					refCode();
 					$("#password").val("");

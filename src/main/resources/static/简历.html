@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>宽度自适应两列布局</title>
+    <link rel="stylesheet" href="/css/layui.css">
+        <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<style>
+*{margin:0;padding:0;}
+#herder{
+    height:50px;
+}
+.main-left{
+    width:32%;
+    height:360px;
+    float:left;
+    border-right: dashed medium #aaaaaa;
+}
+.main-middle{
+    width:32%;
+    height:360px;
+    float:left;
+    border-right: dashed medium #aaaaaa;
+}
+.main-right{
+    width:32%;
+    height:360px;
+    float:right;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+#footer{
+    clear:both;
+    height:60px;
+    border-top: dashed medium #aaaaaa;
+}
+</style>
+</head>
+<body>
+<div class="main-left">
+  <div style="margin: 0 auto; text-align: center;color: grey; font-size: 14px">----------<i class="layui-icon layui-icon-tips"></i>基本信息----------</div>
+  <p class="fly-home-info">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-util" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550"> 姓名： </span> <span id="name" style="font-size:15px;">123</span>
+    
+  </p>
+
+  <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-list" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  性别：</span> <span id="sex" style="font-size:15px; ">男</span></p>
+
+
+  <p class="fly-home-sign"><i class="layui-icon layui-icon-location"  style="color: red; font-size:20px" ></i><span> 来自 <span id="city" style="font-size:15px; font-weight:550">上海</span></span></p>
+
+  <p class="fly-home-info">
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-release" style="color: red; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  学校：</span> <span id="university" style="font-size:15px; ">松江区文汇路300弄</span></p>
+
+<p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-list" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  专业：</span> <span id="majorName" style="font-size:15px; ">se</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-cellphone" style="color: #5FB878; font-size:20px" ></i></div><span  id="phone" style="font-size:15px; font-weight:550">  电话：</span> <span id="tel" style="font-size:15px; ">18516170447</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-face-smile-b" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  邮箱：</span> <span id="email" style="font-size:15px; ">648353443@qq.com</span></p>
+
+
+
+    
+
+    
+
+    
+  </div>
+  <div class="main-middle">
+    <img  id="profile" src="/images/timg.jpg"  style="width: 100px; height: 100px">
+    
+  
+<div style="margin: 0 auto; text-align: center;color: grey; font-size: 14px">----------<i class="layui-icon layui-icon-tips"></i>实习经历----------</div>
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-util" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  实习公司：</span> <span id="internCompany" style="font-size:15px; ">1</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: #c1392e; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  实习开始时间：</span> <span id="internStart" style="font-size:15px; ">1</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: #c1392e; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  实习结束时间：</span> <span id="internEnd" style="font-size:15px; ">1</span></p>
+
+<div style="margin: 0 auto; text-align: center;color: grey; font-size: 14px">----------<i class="layui-icon layui-icon-tips"></i>在校情况----------</div>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-list" style="color: black; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  gpa：</span> <span id="gpa" style="font-size:15px; ">5</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-list" style="color: black; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  gparank：</span> <span id="gpaRank" style="font-size:15px; ">1</span></p>
+  </div>
+<div class="main-right">
+  <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: #32c12e; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  入学年份：</span> <span id="eduBeginTime" style="font-size:15px; ">2016</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: #32c12e; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  毕业年份：</span> <span id="eduEndTime" style="font-size:15px; ">2020</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-engine" style="color: #144907; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  学历：</span> <span id="eduDegree" style="font-size:15px; ">5</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-table" style="color: #0b2f61; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  主修课程：</span> <span id="majorCourse" style="font-size:15px; ">1</span></p>
+    
+<div style="margin: 0 auto; text-align: center;color: grey; font-size: 14px">----------<i class="layui-icon layui-icon-tips"></i>项目经历----------</div>
+
+<p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-fonts-clear" style="color: #0b612f; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  项目名：</span> <span id="projectName" style="font-size:15px; ">1</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-face-surprised" style="color: #6e1127; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  项目角色：</span> <span id="projectRole" style="font-size:15px; ">1</span></p>
+    
+<p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  项目开始时间：</span> <span id="projectStart" style="font-size:15px; ">1</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-log" style="color: blue; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  项目结束时间：</span> <span id="projectEnd" style="font-size:15px; ">1</span></p>
+
+    <p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-util" style="color: #c1392e; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  项目细节：</span> <span id="projectDetail" style="font-size:15px; ">1</span></p>
+</div>
+<div id="footer">
+<p class="fly-home-info" >
+    <div style="display: inline-block; margin-left: 5px"><i class="layui-icon layui-icon-util" style="color: #c1392e; font-size:20px" ></i></div><span  style="font-size:15px; font-weight:550">  个人简介：</span> <span id="introduce" style="font-size:15px; ">要实现固定宽度的两列布局，也很简单，只需要把左右两列包裹起来，也就是给他们增加一个父容器，然后固定父容器的宽度，父容器的宽度固定了，那么这两列就可以设置具体的像素宽度了，这样就实现了固定宽度的两列布局。1</span></p>
+</div>
+</body>
+<script src="/js/layui.all.js"></script>
+<script type="text/javascript">
+  $.ajax({
+      url: "/company/application/resume",
+      dataType: "json", 
+      data: {
+        "resumeId": 7
+      }, 
+      success: function(result) {
+        if(result.status === 0) {
+          $("#name").text(result.data.name);
+          $("#city").text(result.data.city);
+          $("#university").text(result.data.university);
+          $("#majorName").text(result.data.majorName);
+          $("#tel").text(result.data.phone);
+          $("#email").text(result.data.email);
+          $("#eduBeginTime").text(result.data.eduBeginTime);
+          $("#eduEndTime").text(result.data.eduEndTime);
+          $("#gpa").text(result.data.gpa);
+          $("#gpaRank").text(result.data.gpaRank);
+          $("#majorCourse").text(result.data.majorCourse);
+          $("#majorName").text(result.data.majorName);
+          $("#internCompany").text(result.data.internCompany);
+          $("#internStart").text(result.data.internStart);
+          $("#internEnd").text(result.data.internEnd);
+          $("#projectName").text(result.data.projectName);
+          $("#projectRole").text(result.data.projectRole);
+          $("#projectStart").text(result.data.projectStart);
+          $("#projectEnd").text(result.data.projectEnd);
+          $("#projectDetail").text(result.data.projectDetail);
+          $("#introduce").text(result.data.introduce);
+          var sexx=result.data.sex;
+          if (sex==0){
+            $("#sex").text('男');
+          }
+          else{
+            $("#sex").text('女');
+          }
+        } 
+      }
+    });
+</script>
+</html>

@@ -7,24 +7,63 @@
         <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 	</head>
 	<body>
-		<div class="layui-side" style="padding-top: 15px; background-color: #195bae">
-                <div class="layui-side-scroll" style="background-color: #195bae">
+		<div class="layui-side layui-bg-black" style="padding-top: 15px; background-color: #aaaaaa">
+                <div class="layui-side-scroll">
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-                    <ul id="sidebar" class="layui-nav layui-nav-tree"  lay-filter="test" style="background-color: #195bae"> 
+                    <ul id="sidebar" class="layui-nav layui-nav-tree" lay-filter="test"> 
                     <li class="layui-nav-item layui-nav-itemed layui-this">
-                        <a href="网站主体.html" target="body"><i class="shiftable layui-icon layui-icon-home" style="font-size: 15px; color: #FFFFFF;"></i>  管理员首页</a>
+                        <a href="网站主体.html" target="body"><i class="shiftable layui-icon layui-icon-home" style="font-size: 15px; color: #FFFFFF;"></i>  企业首页</a>
                     </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;"><i class="layui-icon layui-icon-notice" style="font-size: 15px; color: #FFFFFF;" ></i> 账号验证<span class="layui-badge">15</span></a>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;"><i class="layui-icon layui-icon-face-smile" style="font-size: 15px; color: #FFFFFF;"></i>  招聘计划</a>
                         <dl class="layui-nav-child">
-                            <dd><a class="shiftable" href="学生验证.html" target="body">学生信息验证<span class="layui-badge">9</span></a></dd>
-                            <dd><a class="shiftable" href="公司验证.html" target="body">公司信息验证<span class="layui-badge">6</span></a></dd>
+                            <dd><a class="shiftable" href="招聘职位.html" target="body">招聘职位</a></dd>
+                            <dd><a class="shiftable" href="宣讲安排.html" target="body">宣讲安排</a></dd>
                         </dl>
                     </li>
-
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="layui-icon layui-icon-notice" style="font-size: 15px; color: #FFFFFF;" ></i> 
+                            申请管理
+                            <span class="layui-badge num_of_app">9</span></a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a class="shiftable" href="申请处理.html" target="body">申请列表
+                                <span class="layui-badge num_of_app">9</span>
+                            </a>
+                        </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;"><i class="layui-icon layui-icon-set-fill" style="font-size: 15px; color: #FFFFFF;"></i> 系统设置</a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="shiftable" href="修改密码.html" target="body">修改密码</a></dd>
+                        </dl>
+                        <dl class="layui-nav-child">
+                            <dd><a class="shiftable" href="信息验证.html" target="body">验证信息</a></dd>
+                        </dl>
+                    </li>
                 </ul>
                 </div>
             </div>
 	</body>
 	<script src="/js/layui.all.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+      url: "/company/application/list/pending",
+      dataType: "json", 
+      success: function(result) {
+        //if(result.status === OK) {
+        var num=result.count;
+        if (num!=0){
+            $(".num_of_app").show();
+          $(".num_of_app").text(num);
+        }
+      else{
+        $(".num_of_app").hide();
+      }
+        //} 
+      }
+    });
+    </script>
 </html>

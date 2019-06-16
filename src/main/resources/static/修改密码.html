@@ -1,0 +1,49 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>layui.form小例子</title>
+      <link rel="stylesheet" href="/css/layui.css" media="all">
+    </head>
+    <body>
+      <form class="layui-form" style="width: 600px; height: 550px; margin: 0 auto"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item" style="margin-top: 100px">
+          <label class="layui-form-label">原密码</label>
+          <div class="layui-input-block">
+            <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">新密码</label>
+          <div class="layui-input-block">
+            <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">确认密码</label>
+          <div class="layui-input-block">
+            <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+      </form>
+      <script src="/js/layui.all.js"></script>
+      <script>
+        layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //常规用法
+  laydate.render({
+    elem: '#test1'
+  });
+});
+  </script>
+</body>
+</html>

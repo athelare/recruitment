@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>layui在线调试</title>
+  <link rel="stylesheet" href="/css/layui.css">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <style>
+    body{margin: 10px;}
+    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+  </style>
+</head>
+<body>
+ <blockquote class="layui-elem-quote layui-quote-nm layui-hide" id="footer">招聘职位</blockquote>
+
+ <div class="content1"><button id="summarize" class="layui-btn layui-btn-fluid" style="width:150px"><i class="layui-icon layui-icon-add-1"></i>  发布招聘简章</button></div>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+ 
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+  </div>
+</script>
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+ 
+
+
+
+  
+<script src="/js/layui.all.js"></script>
+<script type="text/javascript">
+  /*$.ajax({
+      url: "http://139.224.134.84:8080/company/login",
+      type: "get",
+      data: {
+        "companyId": "10010011",
+        "password":  "123"
+      },
+      success: function(result) {
+        if(result.status === 0) {
+          //location = "/index/main";
+          alert("login success!");
+          //location='nav_head.html';
+        } 
+        else {
+          /*refCode();
+          $("#password").val("");
+          layer.alert(result.message, {
+            title: '提交结果'
+          });
+        }
+      }
+    });*/
+</script>
+<script type="text/javascript">
+  $('#summarize').click(function(){
+          layer.open({
+  type: 2,
+  area: ['700px', '600px'],
+  fixed: false, //不固定
+  maxmin: true,
+  content: '弹窗_添加职位.html'
+});
+        })
+</script>
+<script>
+layui.config({
+  version: '1554901097999' //为了更新 js 缓存，可忽略
+});
+ 
+layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+  var laydate = layui.laydate //日期
+  ,laypage = layui.laypage //分页
+  ,layer = layui.layer //弹层
+  ,table = layui.table //表格
+  ,carousel = layui.carousel //轮播
+  ,upload = layui.upload //上传
+  ,element = layui.element //元素操作
+  ,slider = layui.slider //滑块
+
+  
+  //执行一个 table 实例
+  table.render({
+    elem: '#test'
+    ,url:'/company/job/list'
+    ,toolbar: '#toolbarDemo'
+    ,title: '用户数据表'
+    ,cols: [[
+      {type: 'checkbox', fixed: 'left'}
+      ,{field:'jobId', title:'职位编号', width:120, edit: 'text', sort: true}
+      ,{field:'jobType', title:'职位类型', width:100}
+      ,{field:'requireNum', title:'需要人数', width: 120}
+      ,{field:'jobName', title:'职位名称', width:180, sort: true}
+      ,{field:'place', title:'地点', width:180}
+    ]]
+    ,page: true
+  });
+  
+  //头工具栏事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'getCheckData':
+        var data = checkStatus.data;
+        layer.alert(JSON.stringify(data));
+      break;
+      case 'getCheckLength':
+        var data = checkStatus.data;
+        layer.msg('选中了：'+ data.length + ' 个');
+      break;
+      case 'isAll':
+        layer.msg(checkStatus.isAll ? '全选': '未全选');
+      break;
+    };
+  });
+  
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    //console.log(obj)
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    } else if(obj.event === 'edit'){
+      layer.prompt({
+        formType: 2
+        ,value: data.email
+      }, function(value, index){
+        obj.update({
+          email: value
+        });
+        layer.close(index);
+      });
+    }
+  });
+  
+
+
+  
+  slider.render({
+    elem: '#sliderDemo'
+    ,input: true //输入框
+  });
+  
+  //底部信息
+  var footerTpl = lay('#footer')[0].innerHTML;
+  lay('#footer').html(layui.laytpl(footerTpl).render({}))
+  .removeClass('layui-hide');
+});
+</script>
+</body>
+</html>        
+        

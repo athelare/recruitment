@@ -1,19 +1,19 @@
 .carousel_div1 {
     background-position: center;
-    background-image: url(../登录注册界面/img/bg1.jpg);
+    background-image: url(/images/bg/bg1.jpg);
     background-size:100%;
     background-attachment: fixed;
 }
 
 .carousel_div2 {
     background-position: center;
-    background-image: url(../登录注册界面/img/bg2.jpg);
+    background-image: url(/images/bg/bg2.jpg);
     background-size:100%;
     background-attachment: fixed;
 }
 
 .carousel_div3 {
-    background: url(../登录注册界面/img/bg3.jpg) fixed center center;
+    background: url(/images/bg/bg3.jpg) fixed center center;
     background-size:100%;
 }
 

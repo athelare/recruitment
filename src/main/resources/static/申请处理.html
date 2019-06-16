@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>layui在线调试</title>
+  <link rel="stylesheet" href="/css/layui.css">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <style>
+    body{margin: 10px;}
+    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+  </style>
+</head>
+<body>
+ <blockquote class="layui-elem-quote layui-quote-nm layui-hide" id="footer">申请处理</blockquote>
+
+<div style="margin:20px
+            20px 20px 20px; width:auto; display:inline-block !important; display:inline;">
+            <input type="text" name="title" required lay-verify="required" placeholder="可搜索学校等信息" autocomplete="off" class="layui-input" style="width:200px;float: left;">
+            <button class="add-talk layui-btn layui-btn-fluid" style=" width: 56px;float: left;">
+              <i class="layui-icon layui-icon-search" style="font-size: 20px; color: #FFFFFF; text-align: center;"></i></button></div>
+ 
+<div class="layui-tab layui-tab-brief" lay-filter="demo">
+  <ul class="layui-tab-title">
+    <li class="layui-this">待处理申请</li>
+    <li>已处理申请</li>
+    <li>全部申请</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+    
+      <table class="layui-hide" id="demo1" lay-filter="test"></table>
+ 
+<script type="text/html" id="barDemo1">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">通过</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">拒绝</a>
+</script>
+    </div>
+    <div class="layui-tab-item">
+    
+      <table class="layui-hide" id="demo2" lay-filter="test"></table>
+ 
+<script type="text/html" id="barDemo2">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">通过</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">拒绝</a>
+</script>
+    </div>
+    <div class="layui-tab-item">
+    
+      <table class="layui-hide" id="demo3" lay-filter="test"></table>
+ 
+<script type="text/html" id="barDemo3">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">通过</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">拒绝</a>
+</script>
+    </div>
+  </div>
+</div>
+
+
+
+  
+<script src="/js/layui.all.js"></script>
+<script>
+layui.config({
+  version: '1554901097999' //为了更新 js 缓存，可忽略
+});
+ 
+layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+  var laydate = layui.laydate //日期
+  ,laypage = layui.laypage //分页
+  ,layer = layui.layer //弹层
+  ,table = layui.table //表格
+  ,carousel = layui.carousel //轮播
+  ,upload = layui.upload //上传
+  ,element = layui.element //元素操作
+  ,slider = layui.slider //滑块
+
+  
+  //监听Tab切换
+  element.on('tab(demo)', function(data){
+    layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+      tips: 1
+    });
+  });
+  
+  //待处理申请
+  table.render({
+    elem: '#demo1'
+    ,height: 420
+    ,url: '/company/application/list/pending' //数据接口
+    ,title: '用户表'
+    ,page: true //开启分页
+    ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+    ,totalRow: true //开启合计行
+    ,cols: [[ //表头
+      {type: 'checkbox', fixed: 'left'}
+      ,{field: 'resumeId', title: '简历id', width:100, sort: true, fixed: 'left'}
+      ,{field: 'jobName', title: '岗位名称', width:120, sort: true, totalRow: true}
+      ,{field: 'applicationStatus', title: '申请状态', width: 180, sort: true, totalRow: true}
+      ,{field: 'studentName', title: '学生姓名', width:120, sort: true, totalRow: true}
+      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo1'}
+    ]]
+  });
+
+//已处理申请
+  table.render({
+    elem: '#demo2'
+    ,height: 420
+    ,url: '/company/application/list/finished' //数据接口
+    ,title: '用户表'
+    ,page: true //开启分页
+    ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+    ,totalRow: true //开启合计行
+    ,cols: [[ //表头
+      {type: 'checkbox', fixed: 'left'}
+      ,{field: 'resumeId', title: '简历id', width:100, sort: true, fixed: 'left'}
+      ,{field: 'jobName', title: '岗位名称', width:120, sort: true, totalRow: true}
+      ,{field: 'applicationStatus', title: '申请状态', width: 180, sort: true, totalRow: true}
+      ,{field: 'studentName', title: '学生姓名', width:120, sort: true, totalRow: true}
+      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo2'}
+    ]]
+  });
+
+//全部申请
+  table.render({
+    elem: '#demo3'
+    ,height: 420
+    ,url: '/company/application/list/all' //数据接口
+    ,title: '用户表'
+    ,page: true //开启分页
+    ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+    ,totalRow: true //开启合计行
+    ,cols: [[ //表头
+      {type: 'checkbox', fixed: 'left'}
+      ,{field: 'resumeId', title: '简历id', width:100, sort: true, fixed: 'left'}
+      ,{field: 'jobName', title: '岗位名称', width:120, sort: true, totalRow: true}
+      ,{field: 'applicationStatus', title: '申请状态', width: 180, sort: true, totalRow: true}
+      ,{field: 'studentName', title: '学生姓名', width:120, sort: true, totalRow: true}
+      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo3'}
+    ]]
+  });
+  
+  //监听头工具栏事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id)
+    ,data = checkStatus.data; //获取选中的数据
+    switch(obj.event){
+      case 'add':
+        layer.msg('添加');
+      break;
+      case 'update':
+        if(data.length === 0){
+          layer.msg('请选择一行');
+        } else if(data.length > 1){
+          layer.msg('只能同时编辑一个');
+        } else {
+          layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+        }
+      break;
+      case 'delete':
+        if(data.length === 0){
+          layer.msg('请选择一行');
+        } else {
+          layer.msg('删除');
+        }
+      break;
+    };
+  });
+  
+  //监听行工具事件
+  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+    var data = obj.data //获得当前行数据
+    ,layEvent = obj.event; //获得 lay-event 对应的值
+    if(layEvent === 'detail'){
+      layer.open({
+      type: 2,
+      area: ['700px', '550px'],
+      fixed: false, //不固定
+      maxmin: true,
+      content: '简历.html'
+    });
+    } else if(layEvent === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del(); //删除对应行（tr）的DOM结构
+        layer.close(index);
+        //向服务端发送删除指令
+      });
+    } else if(layEvent === 'edit'){
+      $.ajax({
+      url: "/company/application/op/accept",
+      dataType: "json", 
+      data: {
+        "resumeId": 7
+      }, 
+      success: function(result) {
+        if(result.status === 0) {
+        alert('修改成功');
+      }
+        } 
+      });
+}
+  
+  //上传
+  upload.render({
+    elem: '#uploadDemo'
+    ,url: '' //上传接口
+    ,done: function(res){
+      console.log(res)
+    }
+  });
+  
+  slider.render({
+    elem: '#sliderDemo'
+    ,input: true //输入框
+  });
+  
+  //底部信息
+  var footerTpl = lay('#footer')[0].innerHTML;
+  lay('#footer').html(layui.laytpl(footerTpl).render({}))
+  .removeClass('layui-hide');
+});
+  });
+</script>
+</body>
+</html>        
+        

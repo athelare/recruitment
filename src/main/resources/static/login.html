@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="#{login.title}">校园招聘企业版-登录</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/login.css" th:href="@{/css/login.css}" >
+</head>
+
+<body>
+<div class="layui-carousel video_mask" id="login_carousel">
+    <div carousel-item>
+        <div class="carousel_div1"></div>
+        <div class="carousel_div2"></div>
+        <div class="carousel_div3"></div>
+    </div>
+    <div class="login layui-anim layui-anim-up">
+        <div class="layui-logo">
+            <a href="#" target="_blank"><img src="/images/校园招聘1.png" th:src="@{/image/校园招聘1.png}" alt="logo"/></a>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend class="text-white" th:text="#{login.title}">企业版 - 登录</legend>
+        </fieldset>
+        <form class="layui-form" action="" method="post">
+            <div class="layui-form-item">
+                <input type="text" id="account" lay-verify="required|account" maxlength="20" placeholder="请输入用户名" th:placeholder="#{placeholder.username}" autocomplete="off" autofocus="autofocus" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <input type="password" id="password" lay-verify="required" maxlength="20" placeholder="请输入密码" th:placeholder="#{placeholder.password}" autocomplete="off" class="layui-input">
+            </div>
+            <!--<div class="layui-form-item form_code">
+                <input type="text" id="code" lay-verify="required|code" maxlength="6" placeholder="请输入验证码" th:placeholder="#{placeholder.validate}" autocomplete="off" class="layui-input">
+                <div class="code"><img id="refCode_login_img" src="" width="118" height="38" alt="refCode"></div>
+            </div>-->
+
+            <button class="login_btn layui-btn layui-btn-radius layui-btn-normal" lay-submit lay-filter="login" th:text="#{login.login}">登录</button>
+            <strong class="text-white"><th:block th:text="#{login.noAccount}">还没有账号？</th:block><a href="register.html" style="color: cornflowerblue;" th:text="#{login.register}">立即注册&raquo;</a></strong>
+        </form>
+        <hr class="layui-bg-gray">
+        <div class="layui-footer text-white">
+            <!-- 底部固定区域 -->
+            &copy;校园招聘系统企业版登录
+        </div>
+    </div>
+</div>
+<script src="/js/layui.all.js"></script>
+<script type="text/javascript" src="/js/login.js" ></script>
+</body>
+</html>

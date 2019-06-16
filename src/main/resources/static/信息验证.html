@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>layui在线调试</title>
+  <link rel="stylesheet" href="/css/layui.css">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <style>
+    body{margin: 10px;}
+    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+  </style>
+</head>
+<body>
+ <blockquote class="layui-elem-quote layui-quote-nm layui-hide" id="footer">验证信息</blockquote>
+
+
+<form class="layui-form" style="width: 600px; height: 550px"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">公司名称</label>
+          <div class="layui-input-block">
+            <input id="companyName" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+         <div class="layui-form-item"> 
+          <label class="layui-form-label">选择地区</label> <div class="layui-input-block">
+            <input id="city" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div> 
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">详细地址</label>
+          <div class="layui-input-block">
+            <input id="address" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">行业类型</label>
+          <div class="layui-input-block">
+            <input id="type" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">企业电话</label>
+          <div class="layui-input-block">
+            <input id="phone" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">企业网址</label>
+          <div class="layui-input-block">
+            <input type="website" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">公司简介</label>
+          <div class="layui-input-block">
+            <textarea id="detail" placeholder="请输入内容" class="layui-textarea"></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+      </form>
+
+  
+<script src="/js/layui.all.js"></script>
+<script type="text/javascript">
+  form = layui.form;
+  form.on("submit(addtalk)", function() {
+    $.ajax({
+      url: "/company/validate",
+      type: "post",
+      dataType:"json",
+      data: {
+        "companyName": $("#companyName").val(),
+        "city": $("#city").val(),
+        "address": $("#address").val(),
+        "type": $("#type").val(),
+        "phone": $("#phone").val(),
+        "website": $("#website").val(),
+        "detail": $("#detail").val();
+      },
+      success: function(result) {
+        if(result.status === 0) {
+          layer.msg("提交成功");
+          //alert("提交成功");
+        } else {
+          /*refCode();
+          $("#password").val("");
+          layer.alert(result.message, {
+            title: '提交结果'
+          });*/
+        }
+      }
+    });
+
+    return false;
+  });
+</script>
+<script>
+layui.config({
+  version: '1554901097999' //为了更新 js 缓存，可忽略
+});
+ 
+layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+  var laydate = layui.laydate //日期
+  ,laypage = layui.laypage //分页
+  ,layer = layui.layer //弹层
+  ,table = layui.table //表格
+  ,carousel = layui.carousel //轮播
+  ,upload = layui.upload //上传
+  ,element = layui.element //元素操作
+  ,slider = layui.slider //滑块
+
+
+  
+  //上传
+  upload.render({
+    elem: '#uploadDemo'
+    ,url: '' //上传接口
+    ,done: function(res){
+      console.log(res)
+    }
+  });
+  
+  slider.render({
+    elem: '#sliderDemo'
+    ,input: true //输入框
+  });
+  
+  //底部信息
+  var footerTpl = lay('#footer')[0].innerHTML;
+  lay('#footer').html(layui.laytpl(footerTpl).render({}))
+  .removeClass('layui-hide');
+});
+</script>
+</body>
+</html>        
+        

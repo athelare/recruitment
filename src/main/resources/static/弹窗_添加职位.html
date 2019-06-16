@@ -1,0 +1,94 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>layui.form小例子</title>
+      <link rel="stylesheet" href="/css/layui.css" media="all">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    </head>
+    <body>
+      <form class="layui-form" style="width: 600px; height: 550px"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">岗位名称</label>
+          <div class="layui-input-block">
+            <input id="jobName" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">申请截止日期</label>
+          <div class="layui-input-block">
+            <input id="appDealine" type="text" name="" placeholder="yyyy-MM-dd" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">人数需求</label>
+          <div class="layui-input-block">
+            <input id="requireNum" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+          <label class="layui-form-label">工作时间</label>
+          <div class="layui-input-block">
+            <input id="workHour" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">岗位简介</label>
+          <div class="layui-input-block">
+            <textarea id="detail" placeholder="请输入内容" class="layui-textarea"></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="addjob">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+      </form>
+      <script src="/js/layui.all.js"></script>
+      <script type="text/javascript">
+      //监听提交  
+      form = layui.form;
+  form.on("submit(addjob)", function() {
+    $.ajax({
+      url: "/company/job/new",
+      type: "post",
+      dataType:"json",
+      data: {
+        "jobName": $("#jobName").val(),
+        "appDealine": $("#appDealine").val(),
+        "requireNum": $("#requireNum").val(),
+        "workHour": $("#workHour").val(),
+        "detail": $("#detail").val()
+      },
+      success: function(result) {
+        if(result.status === 0) {
+          layer.msg("提交成功");
+          //alert("提交成功");
+        } else {
+          /*refCode();
+          $("#password").val("");
+          layer.alert(result.message, {
+            title: '提交结果'
+          });*/
+        }
+      }
+    });
+
+    return false;
+  });
+    </script>
+      <script>
+
+        layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //常规用法
+  laydate.render({
+    elem: '#appDealine'
+  });
+});
+  </script>
+</body>
+</html>
